@@ -36,7 +36,7 @@ Kestrel 把通用 agent、24 个按需加载的技能和 Kali 工具组织成一
 ## 快速开始
 
 ```bash
-git clone https://github.com/liby-c/Kestrel.git
+git clone https://github.com/oc-liby/Kestrel.git
 cd Kestrel
 cp -a skills/. ~/.claude/skills/    # 换成你客户端的技能目录
 ```
