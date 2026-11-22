@@ -256,7 +256,7 @@ def lint(work, check_tmp=False):
     elif not rows:
         issues.append("## 技能加载 表为空")
 
-    # 5 轮有效复盘：至少 5 条列表项，每条要有账本/清单/证据/理由等记录
+    # 5 轮有效复盘：每条必须记录「扩展来源 + 核对项 + 具体对象」
     review_lines = section_lines(plan, "## 复盘")
     review_items = [
         l.strip() for l in review_lines
@@ -265,12 +265,80 @@ def lint(work, check_tmp=False):
     if len(review_items) < 5:
         issues.append("复盘记录不足 5 条: %d" % len(review_items))
     else:
-        weak = []
+        # 扩展来源：找此前不存在的攻击面（对应 SKILL.md X1–X7）
+        X_SOURCES = [
+            ("JS/前端", r"JS|前端|sourcemap|javascript"),
+            ("源码/备份", r"源码|备份|\.git|\.svn|www\.zip"),
+            ("文档/配置", r"swagger|actuator|robots|sitemap|文档|配置|错误页"),
+            ("同类横向", r"同类|横向|同参数|同组件"),
+            ("版本/CVE", r"版本|CVE|banner|指纹"),
+            ("凭据", r"凭据|凭证|token|session"),
+            ("响应线索", r"响应|错误信息|重定向|header|cookie"),
+        ]
+        # 核对项：补漏（对应 SKILL.md A–G）
+        CHECK_ITEMS = r"资产|接口|类别|negative|blocked|回连"
+        # 具体对象：账本行号 / 清单项 ID / 证据路径 / 接口路径
+        OBJECT = r"#\d+|第\s*\d+\s*行|\b[A-Z]\d{1,2}\b|evidence/|/[A-Za-z0-9_\-]"
+        weak, sources_hit = [], set()
         for i, item in enumerate(review_items, 1):
-            if not re.search(r"账本|清单|证据|negative|blocked|理由|轮", item, re.I):
-                weak.append(str(i))
+            hit = [name for name, pat in X_SOURCES if re.search(pat, item, re.I)]
+            if not hit:
+                weak.append("%d(缺扩展来源)" % i)
+            else:
+                sources_hit.update(hit)
+            if not re.search(CHECK_ITEMS, item, re.I):
+                weak.append("%d(缺核对项)" % i)
+            if not re.search(OBJECT, item):
+                weak.append("%d(缺具体对象)" % i)
         if weak:
-            issues.append("复盘第 %s 条缺少账本/清单/证据/理由记录" % ", ".join(weak))
+            issues.append("复盘条目不合格: " + ", ".join(weak))
+        if len(sources_hit) < 3:
+            issues.append(
+                "5 轮复盘扩展来源不足 3 种: %d 种（%s）"
+                % (len(sources_hit), "、".join(sorted(sources_hit)) or "无")
+            )
+
+    # 资产基线 vs 账本：基线端口必须被账本覆盖（旧交战无基线表时只提示）
+    base_header, base_rows = parse_section_table(plan, "## 资产基线")
+    if base_header is None:
+        warnings.append("plan.md 无 ## 资产基线 表，跳过端口比对（旧交战兼容）")
+    else:
+        bp_idx = col(base_header, "端口")
+        if bp_idx is None:
+            issues.append("资产基线缺少「端口」列")
+        else:
+            base_ports = set()
+            for row in base_rows:
+                p = cell(row, bp_idx).split("/")[0].strip()
+                if p:
+                    base_ports.add(p)
+            ledger_ports = set()
+            if ledger_header:
+                lp_idx = col(ledger_header, "端口")
+                for row in ledger_rows:
+                    p = cell(row, lp_idx).split("/")[0].strip()
+                    if p:
+                        ledger_ports.add(p)
+            missing = base_ports - ledger_ports
+            if missing:
+                issues.append("资产基线端口未进账本: " + ", ".join(sorted(missing)))
+
+    # 复盘提到的新路径必须在账本或覆盖清单中（扩展发现不能只写不测）
+    if review_items:
+        cov_header, cov_rows = parse_section_table(plan, "## 覆盖清单")
+        ledger_text = " ".join(" ".join(r) for r in ledger_rows) if ledger_header else ""
+        cov_text = " ".join(" ".join(r) for r in cov_rows) if cov_header else ""
+        review_text = "\n".join(review_items)
+        found_paths = set(re.findall(r"/[A-Za-z0-9_\-][A-Za-z0-9_\-./]{2,}", review_text))
+        ignore = {"/tmp", "/var/tmp", "/dev/shm", "/etc/passwd", "/bin/sh", "/bin/bash"}
+        unlogged = [
+            p for p in found_paths
+            if p not in ignore and p not in ledger_text and p not in cov_text
+        ]
+        if unlogged:
+            issues.append(
+                "复盘提到但账本/覆盖清单未记录的路径: " + ", ".join(sorted(unlogged)[:5])
+            )
 
     # 结束检查：至少 12 条记录，且不得有 FAIL
     end_items = [l.strip() for l in section_lines(plan, "## 结束检查") if l.strip()]
