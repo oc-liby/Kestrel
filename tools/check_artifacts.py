@@ -263,7 +263,7 @@ def lint(work, check_tmp=False):
         if re.match(r"^([-*]|\d+[.、])\s*", l.strip())
     ]
     # 任一条使用新格式即视为新交战；完全没有 [扩展-] 标记时按旧格式兼容
-    new_review_format = any("[扩展-" in item for item in review_items)
+    new_review_format = any("[扩展" in item for item in review_items)
     if len(review_items) < 5:
         issues.append("复盘记录不足 5 条: %d" % len(review_items))
     elif new_review_format:
