@@ -210,16 +210,15 @@ def lint(work, check_tmp=False):
                 if "已尝试" not in blob and "尝试" not in blob:
                     issues.append("深度清单第 %d 行 blocked 但无已尝试说明" % n)
 
-    # 是否为 Web 目标：账本/发现中出现 HTTP 或 Web 类服务
-    text_all = (plan + "\n" + findings).lower()
+    # 是否为 Web 目标：只看账本「服务」列；正文里的参考链接不算
     service_text = ""
     if ledger_header:
         svc_idx = col(ledger_header, "服务")
         service_text = " ".join(cell(r, svc_idx) for r in ledger_rows).lower()
-    web_like = (
-        "http://" in text_all
-        or "https://" in text_all
-        or any(k in service_text for k in ("http", "web", "nginx", "tomcat", "apache", "iis", "spring"))
+    web_like = any(
+        k in service_text
+        for k in ("http", "web", "nginx", "tomcat", "apache", "iis", "spring",
+                  "node", "django", "flask", "php")
     )
 
     # 覆盖清单：Web 目标必须覆盖 17 类，每类有状态
@@ -405,16 +404,20 @@ def lint(work, check_tmp=False):
         issues.append("存在 report.md（禁止）")
 
     # confirmed 必须有证据，且证据文件真实存在
-    for block in re.split(r"(?m)^##\s+F-", findings)[1:]:
-        lines = block.splitlines()
-        title = lines[0].strip() if lines else ""
+    # 用 finditer 保留标题行，避免 split 把标题切掉导致标题内的状态漏检
+    header_matches = list(re.finditer(r"(?m)^##\s+F-.*$", findings))
+    for i, m in enumerate(header_matches):
+        start = m.start()
+        end = header_matches[i + 1].start() if i + 1 < len(header_matches) else len(findings)
+        block = findings[start:end]
+        title = m.group(0).strip()
         is_confirmed = bool(
-            re.search(r"(?m)^##\s+F-.*\bconfirmed\b", block)
-            or re.search(r"(?m)^\s*-\s*状态[：:]\s*confirmed\b", block)
+            re.search(r"\bconfirmed\b", m.group(0), re.I)
+            or re.search(r"(?m)^\s*-\s*状态[：:]\s*confirmed\b", block, re.I)
         )
         has_evidence = re.search(r"证据(?:路径)?[：:]|evidence/|\|\s*证据(?:路径)?\s*\|", block) is not None
         if is_confirmed and not has_evidence:
-            issues.append("findings 中 confirmed 无证据: F-" + title[:60])
+            issues.append("findings 中 confirmed 无证据: " + title[:80])
         if is_confirmed:
             for rel in re.findall(r"evidence/[A-Za-z0-9._/\-]+", block):
                 rel = rel.rstrip(".,;:)")
