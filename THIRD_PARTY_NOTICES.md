@@ -98,4 +98,4 @@ NVD 数据的使用受 NVD 使用条款约束：https://nvd.nist.gov/general/leg
 ## 许可证不构成测试授权
 
 Apache-2.0 及任何第三方许可证都不构成对目标系统的测试授权。
-授权边界见 README 的「安全声明」与 `docs/RISK.md`。
+授权边界见 README 的「安全声明」与 `skills/pentest-flow/references/constitution.md` §13。

@@ -1,4 +1,4 @@
-# 越狱评估数据集（11 个 / 1329 条样本）
+# 越狱评估数据集（11 个 / 1209 条样本，2026-11-23 核对）
 
 > 来源：[tencent/AI-Infra-Guard](https://github.com/Tencent/AI-Infra-Guard) `data/eval/`（Apache-2.0，腾讯朱雀实验室）
 > 数据集上游来源与许可证状态见仓库根目录 `THIRD_PARTY_NOTICES.md`（含 CC-BY-NC-4.0 非商业限制与 ODC-BY 署名要求）。
@@ -48,7 +48,7 @@
 ## 与动态测试的配合
 
 数据集样本是动态测试三类样本之一（另两类：算子变异样本、Agent 手工构造样本）。
-**建议配比**（A.I.G 方法论，见 `references/ai-redteam-methodology.md`）：
+**建议配比**（A.I.G 方法论，见 `../../references/ai-redteam-methodology.md`）：
 
 - 数据集原始样本 ≥10 条
 - 算子变异样本 ≥10 条（用 `references/operators/` 的算子生成）

@@ -46,7 +46,7 @@ L3 知识  references/       案例/payload/CVE/playbook  无规则
 
 ### 第 1 步：建宪法 ✅ 完成（提交 `e08b00c`）
 
-- 新建 `skills/pentest-flow/references/constitution.md`（193 行，13 节）
+- 新建 `../skills/pentest-flow/references/constitution.md`（193 行，13 节）
 - 整合授权等级、⚠️/⛔ 清单、授权流程、W1–W6、不转嫁、回连、通道、证据标准、产物位置、安全边界
 - `authorization.md` 标注「已迁移」，过渡期保留
 
@@ -65,11 +65,11 @@ L3 知识  references/       案例/payload/CVE/playbook  无规则
 
 | 文件 | 现状 | 改法 |
 |---|---|---|
-| `skills/exploitation/SKILL.md` | W1–W6 完整表 + 6 条判定结果（约 12 行） | 改为「按 `constitution.md` §6 判定」 |
-| `skills/web-pentest/SKILL.md` | A9/A10 的 L3-⚠️ 说明、U8 的 L4 判定（约 4 行） | 保留测试项，授权部分改引用 |
-| `skills/post-exploitation/SKILL.md` | L3 ✅ / L4-⛔ 的行（约 2 行） | 改引用 |
-| `skills/redteam-playbooks/SKILL.md` | L4-⚠️ / L4-⛔ 流程（约 2 行） | 改引用 |
-| `skills/ai-mcp-security/SKILL.md` | L4-⚠️ / L4-⛔ 说明（1 行） | 改引用 |
+| `../skills/exploitation/SKILL.md` | W1–W6 完整表 + 6 条判定结果（约 12 行） | 改为「按 `constitution.md` §6 判定」 |
+| `../skills/web-pentest/SKILL.md` | A9/A10 的 L3-⚠️ 说明、U8 的 L4 判定（约 4 行） | 保留测试项，授权部分改引用 |
+| `../skills/post-exploitation/SKILL.md` | L3 ✅ / L4-⛔ 的行（约 2 行） | 改引用 |
+| `../skills/redteam-playbooks/SKILL.md` | L4-⚠️ / L4-⛔ 流程（约 2 行） | 改引用 |
+| `../skills/ai-mcp-security/SKILL.md` | L4-⚠️ / L4-⛔ 说明（1 行） | 改引用 |
 
 **当时验证**：全仓 `grep -rn "L4-⛔" skills/`，确认只命中宪法；后续分级重排已将旧标签全仓清零。
 
@@ -96,9 +96,9 @@ shell_signal ... post-exploitation
 
 ## 四、验收标准
 
-1. 全仓 `L4-⛔` / `L4-⚠️` 清零（新分级不再使用旧标签）
-2. 全仓 `L3-⚠️` 只出现在 `constitution.md` 与技能测试项判据
-3. 主技能 ≤420 行；账本/清单/next-3 规则只在 `SKILL.md`，`flow.md` 只留模板
+1. 技能规则正文（`skills/*/SKILL.md`、`skills/*/references/`）中 `L4-⛔` / `L4-⚠️` 清零；`docs/` 历史记录与 README 引用不计
+2. 技能规则正文中 `L3-⚠️` 只出现在 `constitution.md` 与技能测试项判据；README 与 `../skills/pentest-flow/SKILL.md` 的引用/摘要不计
+3. 主技能 ≤450 行（2026-11-22 复盘审计改造后由 420 上调）；账本/清单/next-3 规则只在 `SKILL.md`，`flow.md` 只留模板
 4. `check_artifacts.py` 不含任何技能名
 5. 断链 0、围栏成对、预算 PASS
 6. 技能文档中反引号包裹的 `.md` 路径全部可解析（通配符、产物名、外部项目路径除外）
@@ -158,7 +158,7 @@ shell_signal ... post-exploitation
 | 1 | 119 处技能文档路径不可解析：跨技能引用缺 `../` / `../../`（22）、references 目录内重复 `references/` 前缀（96）、兄弟目录引用（1） | 批量补前缀 / 去重前缀，每条替换前验证目标存在；可归类断链清零 |
 | 2 | 宪法与主技能文件头仍写「⚠️/⛔ 清单」 | 改为「⚠️ 清单、L4 清单」 |
 | 3 | `## 覆盖清单` 未进宪法 §12 产物清单，`flow.md` 无对应模板 | 宪法 §12 补 `覆盖清单`，`flow.md` 补模板 |
-| 4 | 术语混用「覆盖矩阵 / 覆盖清单」 | 统一为「覆盖清单」（主技能、`flow.md`、`tools/README.md`） |
+| 4 | 术语混用「覆盖矩阵 / 覆盖清单」 | 统一为「覆盖清单」（主技能、`flow.md`、`../tools/README.md`） |
 | 5 | 结束检查第 6 条重复技能清单，与「技能路由」强制门禁双写 | 改为引用门禁表，规则唯一源 |
 | 6 | `handoff.md` 重复主技能的结束/用量禁令 | 改为引用主技能 |
 

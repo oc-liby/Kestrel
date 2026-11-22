@@ -20,7 +20,7 @@ Kestrel 把通用 agent、24 个按需加载的技能和 Kali 工具组织成一
 
 > **授权前提**：仅用于你拥有或已获得明确授权的目标。完整边界见[安全声明](#安全声明)。
 >
-> **运行环境**：技能本身零依赖，但执行依赖工具环境——推荐 Kali Linux（全量工具集可用，技能列表不是白名单）。缺工具时按 `apt → pipx → npm → go → gem → 二进制/JAR` 安装，优先中国镜像，安装记录写入 `notes.md`。
+> **运行环境**：技能本身零依赖（自带 Python 脚本与 `tools/` 需 Python 3.9+，仅标准库），但执行依赖工具环境——推荐 Kali Linux（全量工具集可用，技能列表不是白名单）。缺工具时按 `apt → pipx → npm → go → gem → 二进制/JAR` 安装，优先中国镜像，安装记录写入 `notes.md`。
 
 ## 核心优势
 
@@ -30,7 +30,7 @@ Kestrel 把通用 agent、24 个按需加载的技能和 Kali 工具组织成一
 | **可交接**          | 账本、清单、复盘、清理记录全部落在 `Work/OC-<target>/`——换人接手不用重来，压缩或重启都能续           |
 | **授权可控**        | 分级写进 `roe.yaml`（L0–L3 自动上限 + `forbidden` 边界），L4 逐次授权——边界是文件，不是模型记忆      |
 | **按需加载**        | 启动只加载 24 个技能的名称与用途；信号命中且当前动作需要时才读正文，用不到的技能不占上下文           |
-| **零依赖**          | 24 个技能是纯 markdown，复制进技能目录即用——不装服务、不建库、不改环境                               |
+| **零依赖**          | 24 个技能以 markdown 为主，附 4 个零依赖 Python 脚本，复制进技能目录即用——不装服务、不建库、不改环境 |
 | **离线/在线知识库** | AI 组件漏洞库、注入算子库、Agent 检测清单与攻击链全部内置，断网也能查；联网时接 NVD / OSV 补最新数据 |
 
 ## 快速开始
@@ -149,5 +149,7 @@ Kestrel 仅用于**你拥有或已获得明确授权**的目标。未授权扫�
 本项目采用 Apache License 2.0，全文见 [LICENSE](LICENSE)。
 
 基于 [Tencent AI-Infra-Guard](https://github.com/Tencent/AI-Infra-Guard)（Apache-2.0）；内置第三方内容与数据集的来源和许可见 [NOTICE](NOTICE) 与 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
+
+> 注意：内置数据集不全部适用 Apache-2.0。`skills/ai-mcp-security/data/eval-datasets/` 中 2 个数据集未声明许可证、3 个含 CC-BY-NC-4.0 非商业限制；商业分发前请按 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) 处理。
 
 许可证不构成对任何未授权测试的授权。

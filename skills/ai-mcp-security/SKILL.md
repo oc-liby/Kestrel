@@ -60,7 +60,7 @@ metadata:
 | 攻击链视图 | `references/agent-attack-chains.md` | 6 条组合链：能力面 → 算子序列 → 观测点 |
 | 框架能力面矩阵 | `references/agent-framework-matrix.md` | 8 类宿主/框架的规则入口、工具、审批、记忆、MCP |
 | 来源索引 | `references/sources/INDEX.md` | S01–S41 主题索引与引用规则，写报告时查 |
-| 评测数据集 | `data/eval-datasets/` | 11 个数据集 / 1329 条样本，用于拒答边界评估与 ASR 统计 |
+| 评测数据集 | `data/eval-datasets/` | 11 个数据集 / 1209 条样本（2026-11-23 核对），用于拒答边界评估与 ASR 统计 |
 | 渲染脚本 | `scripts/` | `render_operator.py`（算子渲染）、`encodings.py`（13 种编码链）、`select_operators.py`（信号粗筛） |
 
 **开展 AI 目标动态测试前必读** `references/ai-redteam-methodology.md`：第一性原理五步流程、
@@ -135,5 +135,5 @@ python3 "$KS/ai-mcp-security/scripts/select_operators.py" --help
 - `references/agent-attack-chains.md` — 六条组合攻击链（能力面 → 算子 → 观测点）
 - `references/agent-framework-matrix.md` — 8 类宿主/框架能力面矩阵
 - `references/sources/INDEX.md` — 来源索引（S01–S41，按主题分文件，写报告时查）
-- `data/eval-datasets/README.md` — 评测数据集（11 个 / 1329 条）
+- `data/eval-datasets/README.md` — 评测数据集（11 个 / 1209 条）
 - `scripts/` — 算子渲染与编码链脚本（零外部依赖）
