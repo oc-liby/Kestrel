@@ -246,6 +246,27 @@ def lint(work, check_tmp=False):
                 if missing:
                     issues.append("覆盖清单缺少 Web 类别: " + ", ".join(missing))
 
+    # 通道判定：账本出现已确认的 RCE / WebShell / 命令执行时，plan.md 必须有 ## 通道判定
+    SHELL_CATEGORIES = (
+        "rce", "webshell", "cmd_injection", "command_injection",
+        "deserialization", "deser", "code_exec", "exec",
+    )
+    shell_rows = []
+    if ledger_header:
+        cat_idx = col(ledger_header, "类别")
+        st_idx = col(ledger_header, "状态")
+        for row in ledger_rows:
+            cat = cell(row, cat_idx).lower()
+            st = cell(row, st_idx).lower()
+            if st == "confirmed" and any(k in cat for k in SHELL_CATEGORIES):
+                shell_rows.append(row)
+    if shell_rows:
+        ch_header, ch_rows = parse_section_table(plan, "## 通道判定")
+        if ch_header is None:
+            issues.append("账本有已确认的 RCE/WebShell/命令执行，但 plan.md 缺 ## 通道判定")
+        elif not ch_rows:
+            issues.append("## 通道判定 表为空")
+
     # 技能加载表：只查存在与非空。
     # 具体该加载哪些技能由 skills/pentest-flow/SKILL.md 的「技能路由」信号表定义，
     # 属于规则内容，不在检查器里复制。
