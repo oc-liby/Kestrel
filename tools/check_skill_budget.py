@@ -24,6 +24,7 @@ CAPS = {
     "references/agent-attack-chains.md": 100,
     "references/agent-framework-matrix.md": 80,
     "references/agent-detections/mcp-tool-poisoning-detection.md": 105,
+    "references/agent-detections/mcp-tool-poisoning-evidence.md": 80,
     "references/agent-detections/agent-policy-bypass-detection.md": 100,
     "references/agent-detections/instruction-file-injection-detection.md": 80,
     "references/agent-detections/context-compaction-poisoning-detection.md": 100,

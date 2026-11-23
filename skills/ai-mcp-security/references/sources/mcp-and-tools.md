@@ -1,4 +1,4 @@
-# MCP 与工具面来源（S01–S07）
+# MCP 与工具面来源（S01–S07、S42）
 
 > 新增 MCP / 工具面来源直接追加到本表末尾，使用下一个未占用的 S 编号。
 
@@ -11,7 +11,8 @@
 | S05 | MCP Safety Audit（arXiv 2504.03767） | https://arxiv.org/abs/2504.03767 | A1、MCP 安全审计 |
 | S06 | Trail of Bits：MCP 供应链攻击 | https://blog.trailofbits.com/2025/04/21/jumping-the-line-how-mcp-servers-can-attack-you-before-you-ever-use-them/ | A1、使用前攻击 |
 | S07 | Simon Willison：MCP prompt injection | https://simonwillison.net/2025/Apr/9/mcp-prompt-injection/ | A1、描述与用户视图不一致 |
+| S42 | Shaikh / Montaruli：MCP Tool Poisoning in Agentic AI Frameworks（arXiv 2611.03555v2） | https://arxiv.org/abs/2611.03555 | 证据分级、参数绑定、框架/模型归因 |
 
 ## 新增区
 
-（暂无；新条目追加到上表后，在 `INDEX.md` 更新区间。）
+（S42 已登记；后续来源继续追加到上表，并在 `INDEX.md` 更新区间。）

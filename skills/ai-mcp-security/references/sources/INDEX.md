@@ -5,7 +5,7 @@
 
 | 主题 | 文件 | ID 区间 | 适用 |
 |---|---|---|---|
-| MCP 与工具面 | `mcp-and-tools.md` | S01–S07 | MCP 投毒、工具参数、confused deputy |
+| MCP 与工具面 | `mcp-and-tools.md` | S01–S07、S42 | MCP 投毒、工具参数、confused deputy |
 | 指令文件、Agent 与框架 | `agents-and-frameworks.md` | S08–S12、S35–S41 | 规则文件、A2A、框架能力面 |
 | 策略、审批与护栏 | `policy-approval.md` | S13–S22 | 护栏、审批/HITL、OWASP |
 | 上下文、记忆与评测 | `context-memory.md` | S23–S34 | 压缩、记忆、RAG、评测基准 |

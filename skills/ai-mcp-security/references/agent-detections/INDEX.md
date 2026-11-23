@@ -45,6 +45,10 @@
 | `context-compaction-poisoning-detection.md` | 压缩/摘要/淘汰导致的持久化指令注入 | ASI06、ASI01、ASI03 |
 | `owasp-asi.md` | **OWASP ASI 2026 分类框架**（发现归类用，非检测清单） | — |
 
+## 配套参考
+
+- `mcp-tool-poisoning-evidence.md` — MCP 投毒证据分级、参数绑定优先级与框架/模型归因（[S42]）。
+
 ## 推荐选用顺序（按目标能力面）
 
 0. **先定位宿主/框架**：查 `../agent-framework-matrix.md`，确认规则入口、工具、审批、记忆与 MCP 面。
