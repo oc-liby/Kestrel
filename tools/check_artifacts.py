@@ -35,6 +35,13 @@ WEB_CATEGORIES = [
     "business_logic", "default_credential", "cve",
 ]
 
+# 执行类账本类别：用词边界匹配，避免 source / resource 里的 "rce" 子串误报。
+SHELL_CATEGORY_PATTERN = re.compile(
+    r"\b(?:rce|web[ _-]?shell|cmd[ _-]?injection|command[ _-]?injection|"
+    r"deserialization|deser|code[ _-]?exec|execution|exec)\b",
+    re.I,
+)
+
 # 只匹配绝对临时路径；相对路径 evidence/src/tmp/ 不算。
 TMP_PAT = re.compile(r"(?<![\w:/])/(?:var/)?tmp/|(?<![\w:/])/dev/shm/")
 # 否定句豁免：只保留明确的否定词，避免“检查 /tmp”这类句子被误豁免。
@@ -247,10 +254,6 @@ def lint(work, check_tmp=False):
                     issues.append("覆盖清单缺少 Web 类别: " + ", ".join(missing))
 
     # 通道判定：账本出现已确认的 RCE / WebShell / 命令执行时，plan.md 必须有 ## 通道判定
-    SHELL_CATEGORIES = (
-        "rce", "webshell", "cmd_injection", "command_injection",
-        "deserialization", "deser", "code_exec", "exec",
-    )
     shell_rows = []
     if ledger_header:
         cat_idx = col(ledger_header, "类别")
@@ -258,7 +261,7 @@ def lint(work, check_tmp=False):
         for row in ledger_rows:
             cat = cell(row, cat_idx).lower()
             st = cell(row, st_idx).lower()
-            if st == "confirmed" and any(k in cat for k in SHELL_CATEGORIES):
+            if st == "confirmed" and SHELL_CATEGORY_PATTERN.search(cat):
                 shell_rows.append(row)
     if shell_rows:
         ch_header, ch_rows = parse_section_table(plan, "## 通道判定")
