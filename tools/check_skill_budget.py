@@ -39,6 +39,7 @@ CAPS = {
 
 POST_CAPS = {
     "references/shell-stabilization.md": 150,
+    "references/channel-decision.md": 100,
     "references/shell-stabilization-containers.md": 150,
     "references/shell-stabilization-linux.md": 150,
     "references/shell-stabilization-windows.md": 150,
