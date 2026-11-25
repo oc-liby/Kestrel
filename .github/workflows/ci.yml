@@ -26,6 +26,9 @@ jobs:
       - name: Links
         run: python tools/check_links.py
 
+      - name: CVE index
+        run: python tools/build_index.py --check
+
       - name: Data (CVE YAML / index / dataset notices)
         run: python tools/check_data.py --check
 

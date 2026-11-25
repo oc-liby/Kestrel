@@ -64,6 +64,26 @@ python tools/check_contracts.py --strict-refs   # P2 后
 python tools/check_links.py
 ```
 
+## build_index.py
+
+从 CVE YAML 生成 `skills/cve-triage/data/aig-vuln/cve-index.json`（含组件/版本/规则）；`--check` 用于 CI。
+
+```bash
+python tools/build_index.py
+python tools/build_index.py --check
+```
+
+## query_cve.py
+
+离线查询 CVE（零依赖，读 JSON 索引）。技能内实现在 `skills/cve-triage/scripts/query_cve.py`，仓库内 `tools/query_cve.py` 是薄封装。
+
+```bash
+python tools/query_cve.py --component 9router --version 0.5.0
+python tools/query_cve.py --component openwebui --version 0.5.0 --json
+python tools/query_cve.py --cve CVE-2025-55182
+python tools/query_cve.py --list-components
+```
+
 ## check_data.py
 
 校验 2440 个 CVE YAML 可解析、组件内 CVE 唯一、`index.json` 与实际目录一致、`THIRD_PARTY_NOTICES.md` 覆盖全部数据集。

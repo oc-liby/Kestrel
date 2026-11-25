@@ -13,6 +13,7 @@
 本工具只检查结构，不检查证据真实性，也不能证明测试质量。
 """
 
+import hashlib
 import os
 import re
 import sys
@@ -485,6 +486,87 @@ def lint(work, check_tmp=False):
     return issues, warnings
 
 
+def sha256_file(path):
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(65536), b""):
+            h.update(chunk)
+    return "sha256:" + h.hexdigest()
+
+
+def _evidence_paths(block):
+    paths = re.findall(r"evidence/[A-Za-z0-9._/\-]+", block)
+    paths = [p.rstrip(".,;:)") for p in paths if "*" not in p and "?" not in p]
+    return list(dict.fromkeys(paths))
+
+
+def stamp_hashes(work):
+    """为 findings 的每个 F- 块追加/更新证据哈希行（可选功能）。"""
+    path = os.path.join(work, "findings.md")
+    text = read_text(path)
+    if text is None:
+        return ["findings.md 缺失"]
+    issues = []
+    matches = list(re.finditer(r"(?m)^##\s+F-.*$", text))
+    if not matches:
+        return issues
+    parts, last = [], 0
+    for i, m in enumerate(matches):
+        start = m.start()
+        end = matches[i + 1].start() if i + 1 < len(matches) else len(text)
+        block = text[start:end]
+        paths = _evidence_paths(block)
+        if paths:
+            block = re.sub(r"(?m)^- 证据哈希：.*\n?", "", block)
+            lines = []
+            for rel in paths:
+                full = os.path.join(work, rel)
+                if os.path.exists(full):
+                    lines.append("- 证据哈希：%s（%s）" % (sha256_file(full), rel))
+                else:
+                    issues.append("证据文件不存在: " + rel)
+            if lines:
+                block = block.rstrip() + "\n" + "\n".join(lines) + "\n\n"
+        parts.append(text[last:start] + block)
+        last = end
+    parts.append(text[last:])
+    with open(path, "w", encoding="utf-8", newline="\n") as f:
+        f.write("".join(parts))
+    return issues
+
+
+def verify_hashes(work):
+    """校验 findings 证据哈希与 approvals 链（可选功能）。"""
+    issues = []
+    text = read_text(os.path.join(work, "findings.md")) or ""
+    for m in re.finditer(r"(?m)^- 证据哈希：(sha256:[0-9a-f]{64})（([^）]+)）", text):
+        expected, rel = m.groups()
+        full = os.path.join(work, rel)
+        if not os.path.exists(full):
+            issues.append("哈希对应文件不存在: " + rel)
+            continue
+        if sha256_file(full) != expected:
+            issues.append("证据哈希不一致: " + rel)
+
+    approvals = read_text(os.path.join(work, "approvals.md")) or ""
+    prev = "genesis"
+    for block in re.split(r"(?m)^(?=###\s+A-)", approvals):
+        if not re.match(r"^###\s+A-", block):
+            continue
+        pm = re.search(r"(?m)^- prev:\s*(sha256:[0-9a-f]{64}|genesis)\s*$", block)
+        hm = re.search(r"(?m)^- hash:\s*(sha256:[0-9a-f]{64})\s*$", block)
+        if not pm or not hm:
+            continue
+        if pm.group(1) != prev:
+            issues.append("approvals prev 不连续: " + block.splitlines()[0][:40])
+        body = re.sub(r"(?m)^- hash:.*\n?", "", block)
+        calc = "sha256:" + hashlib.sha256((pm.group(1) + body).encode("utf-8")).hexdigest()
+        if calc != hm.group(1):
+            issues.append("approvals 链哈希不一致: " + block.splitlines()[0][:40])
+        prev = hm.group(1)
+    return issues
+
+
 def main():
     # Windows 控制台默认 GBK，统一按 UTF-8 输出，避免中文乱码
     if hasattr(sys.stdout, "reconfigure"):
@@ -494,10 +576,35 @@ def main():
             pass
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     check_tmp = "--check-tmp" in sys.argv[1:]
+    stamp = "--stamp-hashes" in sys.argv[1:]
+    verify = "--verify-hashes" in sys.argv[1:]
     if len(args) != 1:
-        print("usage: check_artifacts.py [--check-tmp] <Work/OC-target>")
+        print("usage: check_artifacts.py [--check-tmp] [--stamp-hashes|--verify-hashes] <Work/OC-target>")
         return 2
     work = args[0]
+
+    if stamp:
+        issues = stamp_hashes(work)
+        for issue in issues:
+            print("FAIL: " + issue)
+        if issues:
+            return 1
+        print("已写入证据哈希: " + work)
+        return 0
+
+    if verify:
+        issues = verify_hashes(work)
+        has_any = bool(re.search(r"(?m)^- 证据哈希：", read_text(os.path.join(work, "findings.md")) or ""))
+        if not has_any:
+            print("WARN: 旧产物无哈希行，跳过 findings 校验")
+        if issues:
+            print("FAIL: %d hash issue(s)" % len(issues))
+            for issue in issues:
+                print("- " + issue)
+            return 1
+        print("HASH VERIFY PASS: " + work)
+        return 0
+
     issues, warnings = lint(work, check_tmp=check_tmp)
     for warning in warnings[:20]:
         print("WARN: " + warning)
