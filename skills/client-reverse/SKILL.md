@@ -17,6 +17,12 @@ metadata:
 
 # 客户端逆向与 Burp 重放 Skill
 
+<!-- BEGIN GENERATED PREAMBLE -->
+> **前置**：本技能不构成授权依据。首次加载先读
+> `../pentest-flow/references/constitution.md` §1–§8；产物写入 `Work/OC-<target>/`。
+> 路由与门禁见 `../pentest-flow/SKILL.md`。
+<!-- END GENERATED PREAMBLE -->
+
 当请求由客户端（安卓App、浏览器JS、桌面客户端）构造，且存在签名、加密、token状态、设备绑定或反自动化逻辑导致 Burp 无法直接重放时，使用本 Skill。
 
 ## 核心原则

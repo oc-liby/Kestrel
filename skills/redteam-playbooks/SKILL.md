@@ -17,6 +17,12 @@ metadata:
 
 # 红队实战方法论（Claude-Red 精选）
 
+<!-- BEGIN GENERATED PREAMBLE -->
+> **前置**：本技能不构成授权依据。首次加载先读
+> `../pentest-flow/references/constitution.md` §1–§8；产物写入 `Work/OC-<target>/`。
+> 路由与门禁见 `../pentest-flow/SKILL.md`。
+<!-- END GENERATED PREAMBLE -->
+
 本技能把 [Claude-Red](https://github.com/SnailSploit/claude-red)（MIT）中**当前工程缺口最大**的
 方法论并入本框架。它不是替代现有技能，而是补齐：
 

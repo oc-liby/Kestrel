@@ -15,6 +15,12 @@ metadata:
 
 # OSINT 开源情报收集知识库
 
+<!-- BEGIN GENERATED PREAMBLE -->
+> **前置**：本技能不构成授权依据。首次加载先读
+> `../pentest-flow/references/constitution.md` §1–§8；产物写入 `Work/OC-<target>/`。
+> 路由与门禁见 `../pentest-flow/SKILL.md`。
+<!-- END GENERATED PREAMBLE -->
+
 针对信息收集/侦察/社会工程场景的实战知识库，提供**四维信息收集模型**（服务器信息 → 网站信息 → 域名信息 → 人员信息），以及具体的工具使用方法和数据提取技巧。
 
 **与 `recon` Skill 的区别**：

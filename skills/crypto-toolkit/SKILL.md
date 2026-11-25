@@ -15,6 +15,12 @@ metadata:
 
 # 编码解码与加解密 Skill
 
+<!-- BEGIN GENERATED PREAMBLE -->
+> **前置**：本技能不构成授权依据。首次加载先读
+> `../pentest-flow/references/constitution.md` §1–§8；产物写入 `Work/OC-<target>/`。
+> 路由与门禁见 `../pentest-flow/SKILL.md`。
+<!-- END GENERATED PREAMBLE -->
+
 针对渗透测试中常见的编码、加密、混淆场景，提供全面的编解码和加解密能力。
 **重要**：遇到任何编码/加密字符串时，优先使用 Kali 原生命令解码（`base64 -d`/`xxd`/`python3`），而非靠直觉猜测。
 

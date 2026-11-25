@@ -17,6 +17,12 @@ metadata:
 
 # CTF 杂项知识库
 
+<!-- BEGIN GENERATED PREAMBLE -->
+> **前置**：本技能不构成授权依据。首次加载先读
+> `../pentest-flow/references/constitution.md` §1–§8；产物写入 `Work/OC-<target>/`。
+> 路由与门禁见 `../pentest-flow/SKILL.md`。
+<!-- END GENERATED PREAMBLE -->
+
 针对 CTF Misc 题目的实战知识库，覆盖**沙箱逃逸、编码链识别、隐写术、游戏逆向**等杂项题型。
 
 ## 场景路由

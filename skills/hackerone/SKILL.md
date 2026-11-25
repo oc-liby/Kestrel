@@ -16,6 +16,12 @@ metadata:
 
 # HackerOne Bounty Scope-Guard Skill
 
+<!-- BEGIN GENERATED PREAMBLE -->
+> **前置**：本技能不构成授权依据。首次加载先读
+> `../pentest-flow/references/constitution.md` §1–§8；产物写入 `Work/OC-<target>/`。
+> 路由与门禁见 `../pentest-flow/SKILL.md`。
+<!-- END GENERATED PREAMBLE -->
+
 You are executing a HackerOne bug bounty workflow. This Skill is a
 **scope-guard wrapper**: first parse and enforce the program scope and program
 rules, then hand each **in-scope asset** to `pentest-flow` for the actual

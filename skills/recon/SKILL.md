@@ -16,6 +16,12 @@ metadata:
 
 # 信息收集 Skill
 
+<!-- BEGIN GENERATED PREAMBLE -->
+> **前置**：本技能不构成授权依据。首次加载先读
+> `../pentest-flow/references/constitution.md` §1–§8；产物写入 `Work/OC-<target>/`。
+> 路由与门禁见 `../pentest-flow/SKILL.md`。
+<!-- END GENERATED PREAMBLE -->
+
 执行被动和主动信息收集，构建目标画像和攻击面地图。
 
 ## 执行步骤

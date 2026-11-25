@@ -15,6 +15,12 @@ metadata:
 
 # 漏洞发现 Skill
 
+<!-- BEGIN GENERATED PREAMBLE -->
+> **前置**：本技能不构成授权依据。首次加载先读
+> `../pentest-flow/references/constitution.md` §1–§8；产物写入 `Work/OC-<target>/`。
+> 路由与门禁见 `../pentest-flow/SKILL.md`。
+<!-- END GENERATED PREAMBLE -->
+
 漏洞发现不靠“全量扫描”，靠“资产基线 → 攻击面 → 漏洞类 → 深度清单”。本技能只做路由，不复制各技能正文。
 
 ## 路由

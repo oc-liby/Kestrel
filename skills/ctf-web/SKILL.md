@@ -19,6 +19,12 @@ metadata:
 
 # CTF Web 攻击知识库
 
+<!-- BEGIN GENERATED PREAMBLE -->
+> **前置**：本技能不构成授权依据。首次加载先读
+> `../pentest-flow/references/constitution.md` §1–§8；产物写入 `Work/OC-<target>/`。
+> 路由与门禁见 `../pentest-flow/SKILL.md`。
+<!-- END GENERATED PREAMBLE -->
+
 针对 CTF Web 题目的实战知识库，提供**具体绕过值、payload 模板、代码审计 checklist**，而非渗透测试方法论。
 
 **与 `web-security-advanced` 的区别**：

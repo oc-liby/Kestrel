@@ -15,6 +15,12 @@ metadata:
 
 # WAF 绕过技巧库
 
+<!-- BEGIN GENERATED PREAMBLE -->
+> **前置**：本技能不构成授权依据。首次加载先读
+> `../pentest-flow/references/constitution.md` §1–§8；产物写入 `Work/OC-<target>/`。
+> 路由与门禁见 `../pentest-flow/SKILL.md`。
+<!-- END GENERATED PREAMBLE -->
+
 ## PHP WAF 绕过
 
 ### preg_replace 双写绕过（关键技巧）

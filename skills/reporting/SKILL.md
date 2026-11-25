@@ -15,6 +15,12 @@ metadata:
 
 # 报告生成 Skill
 
+<!-- BEGIN GENERATED PREAMBLE -->
+> **前置**：本技能不构成授权依据。首次加载先读
+> `../pentest-flow/references/constitution.md` §1–§8；产物写入 `Work/OC-<target>/`。
+> 路由与门禁见 `../pentest-flow/SKILL.md`。
+<!-- END GENERATED PREAMBLE -->
+
 将渗透测试结果整理为结构化报告，包含详细发现、PoC 脚本和修复建议。
 
 **输出约束**：报告内容写入 `Work/OC-<target>/findings.md`，不新建 `report.md`。`findings.md` 是本项目唯一交付物；如用户明确要求独立报告文件，先确认路径与用途，再按用户指定执行。

@@ -37,6 +37,16 @@ python tools/check_skill_budget.py
 
 退出码：`0` = PASS，`1` = 超预算或文件缺失。
 
+## gen_router.py
+
+从技能 frontmatter + `meta/routing.yaml` 生成 `skills/pentest-flow/references/routing.generated.md` 与各技能前置声明；`--check` 用于 CI。
+
+```bash
+python tools/gen_router.py            # 生成/更新
+python tools/gen_router.py --check    # CI：不一致则退出 1
+python tools/gen_router.py --dry-run  # 列出将变更的文件
+```
+
 ## check_contracts.py
 
 校验 24 个技能 frontmatter 的必填字段、`entry` 唯一、`requires` 无环且指向存在；跨技能直接引用先以 WARN 输出，P2 迁移后启用 `--strict-refs`。

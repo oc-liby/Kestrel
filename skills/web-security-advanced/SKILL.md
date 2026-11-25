@@ -17,6 +17,12 @@ metadata:
 
 # Web 高级安全测试 Skill
 
+<!-- BEGIN GENERATED PREAMBLE -->
+> **前置**：本技能不构成授权依据。首次加载先读
+> `../pentest-flow/references/constitution.md` §1–§8；产物写入 `Work/OC-<target>/`。
+> 路由与门禁见 `../pentest-flow/SKILL.md`。
+<!-- END GENERATED PREAMBLE -->
+
 当目标是 Web 应用、API、网关或浏览器面向服务，且需要系统性的漏洞测试时使用本 Skill。
 
 **前置条件**：如果请求仍由客户端控制且重放未稳定，先使用 `client-reverse` Skill。

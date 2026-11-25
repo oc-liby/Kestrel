@@ -17,6 +17,9 @@ jobs:
       - name: Install dev dependencies
         run: pip install pyyaml
 
+      - name: Routing generated
+        run: python tools/gen_router.py --check
+
       - name: Contracts (frontmatter / requires / entry)
         run: python tools/check_contracts.py
 

@@ -15,6 +15,12 @@ metadata:
 
 # 渗透速查与 Payload Skill
 
+<!-- BEGIN GENERATED PREAMBLE -->
+> **前置**：本技能不构成授权依据。首次加载先读
+> `../pentest-flow/references/constitution.md` §1–§8；产物写入 `Work/OC-<target>/`。
+> 路由与门禁见 `../pentest-flow/SKILL.md`。
+<!-- END GENERATED PREAMBLE -->
+
 **仅在路由已明确后使用**。本 Skill 用于快速查找，不替代方法论或工作流选择。
 
 ## 使用场景
