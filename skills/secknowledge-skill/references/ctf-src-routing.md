@@ -23,18 +23,18 @@ Keep the specialist skills in the loop:
 
 | Scenario | Load These References First |
 | --- | --- |
-| SRC initial triage | `testing-methodology.md`, `../../web-security-advanced/references/web-deployment-security.md` |
-| SQL injection | `web-sqli.md`, `web-sqli-fushuling-one-pass.md`, `testing-methodology.md` |
-| XSS or DOM sink testing | `web-xss.md`, `testing-methodology.md` |
+| SRC initial triage | `../../pentest-flow/references/_shared/misc/testing-methodology.md`, `../../pentest-flow/references/_shared/web/web-deployment-security.md` |
+| SQL injection | `web-sqli.md`, `web-sqli-fushuling-one-pass.md`, `../../pentest-flow/references/_shared/misc/testing-methodology.md` |
+| XSS or DOM sink testing | `web-xss.md`, `../../pentest-flow/references/_shared/misc/testing-methodology.md` |
 | RCE or command injection | `web-rce.md`, `web-upload.md` |
 | File upload / traversal / leak | `web-upload.md`, `web-traversal.md`, `web-leak.md` |
 | SSRF, XXE, deserialization | `web-ssrf-misc.md`, `web-xxe.md`, `web-deser.md` |
-| Auth, logic, IDOR, payment risk | `../../web-pentest/references/web-logic-auth.md`, `testing-methodology.md` |
-| GraphQL, WebSocket, OAuth, protocol edge cases | `../../web-pentest/references/web-modern-protocols.md` |
+| Auth, logic, IDOR, payment risk | `../../pentest-flow/references/_shared/web/web-logic-auth.md`, `../../pentest-flow/references/_shared/misc/testing-methodology.md` |
+| GraphQL, WebSocket, OAuth, protocol edge cases | `../../pentest-flow/references/_shared/web/web-modern-protocols.md` |
 | AI prompt injection or jailbreak | `ai-app-prompt.md`, `ai-model-jailbreak.md` |
 | MCP / Agent / tool abuse | `ai-app-mcp.md`, `ai-app-agent-cot.md`, `ai-app-frontier.md` |
 | RAG / data poisoning / leakage | `ai-data-app.md`, `ai-data-deploy.md`, `ai-model-extraction.md` |
-| AI risk rating | `gaarm-risk-matrix.md`, `testing-methodology.md` |
+| AI risk rating | `../../pentest-flow/references/_shared/misc/gaarm-risk-matrix.md`, `../../pentest-flow/references/_shared/misc/testing-methodology.md` |
 
 ## CTF Workflow
 
@@ -46,10 +46,10 @@ Keep the specialist skills in the loop:
 ## SRC Workflow
 
 1. Confirm authorization scope, target, and test objective.
-2. Start with `testing-methodology.md` for coverage and `../../web-security-advanced/references/web-deployment-security.md` for exposure checks.
+2. Start with `../../pentest-flow/references/_shared/misc/testing-methodology.md` for coverage and `../../pentest-flow/references/_shared/web/web-deployment-security.md` for exposure checks.
 3. Load the most relevant vulnerability-family reference only after an observable clue appears.
 4. Track each item as `hypothesis`, `needs validation`, or `confirmed`, with evidence such as request/response, impact boundary, affected user role, and reproducibility.
-5. For AI targets, map observed behavior to `gaarm-risk-matrix.md` before writing severity or report language.
+5. For AI targets, map observed behavior to `../../pentest-flow/references/_shared/misc/gaarm-risk-matrix.md` before writing severity or report language.
 
 ## Output Discipline
 

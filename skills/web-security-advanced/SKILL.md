@@ -33,13 +33,13 @@ metadata:
 
 | CTF 场景 | 路由到 ctf-web | 参考文档 |
 |---------|---------------|---------|
-| PHP 弱比较/类型绕过 | `ctf-web` | `../ctf-web/references/php-bypass-cheatsheet.md` |
-| 命令注入空格绕过 | `ctf-web` | `../ctf-web/references/command-injection-bypass.md` |
-| eval 回显/无回显 | `ctf-web` | `../ctf-web/references/eval-and-rce-techniques.md` |
-| PHP 代码审计 | `ctf-web` | `../ctf-web/references/php-code-audit-checklist.md` |
-| SSTI 注入链 | `ctf-web` | `../ctf-web/references/ssti-injection-chains.md` |
-| 反序列化利用链 | `ctf-web` | `../ctf-web/references/deserialization-playbook.md` |
-| 文件上传 → RCE | 本 Skill | `references/web-playbook-08-file-vulnerabilities.md` |
+| PHP 弱比较/类型绕过 | `ctf-web` | `../pentest-flow/references/_shared/web/php-bypass-cheatsheet.md` |
+| 命令注入空格绕过 | `ctf-web` | `../pentest-flow/references/_shared/web/command-injection-bypass.md` |
+| eval 回显/无回显 | `ctf-web` | `../pentest-flow/references/_shared/web/eval-and-rce-techniques.md` |
+| PHP 代码审计 | `ctf-web` | `../pentest-flow/references/_shared/web/php-code-audit-checklist.md` |
+| SSTI 注入链 | `ctf-web` | `../pentest-flow/references/_shared/web/ssti-injection-chains.md` |
+| 反序列化利用链 | `ctf-web` | `../pentest-flow/references/_shared/web/deserialization-playbook.md` |
+| 文件上传 → RCE | 本 Skill | `../pentest-flow/references/_shared/web/web-playbook-08-file-vulnerabilities.md` |
 
 **本 Skill 侧重渗透测试方法论**，CTF 实战绕过值和 payload 模板请参考 `ctf-web`。
 
@@ -47,12 +47,12 @@ metadata:
 
 | 攻击面类型 | 首选参考 |
 |-----------|---------|
-| 参数注入（SQLi/XSS/命令执行/SSTI/XXE） | `../web-pentest/references/web-injection.md` |
-| 协议安全（CORS/GraphQL/WebSocket/OAuth/请求走私） | `../web-pentest/references/web-modern-protocols.md` |
-| 认证与逻辑（IDOR/越权/支付/密码重置/鉴权绕过） | `../web-pentest/references/web-logic-auth.md` |
+| 参数注入（SQLi/XSS/命令执行/SSTI/XXE） | `../pentest-flow/references/_shared/web/web-injection.md` |
+| 协议安全（CORS/GraphQL/WebSocket/OAuth/请求走私） | `../pentest-flow/references/_shared/web/web-modern-protocols.md` |
+| 认证与逻辑（IDOR/越权/支付/密码重置/鉴权绕过） | `../pentest-flow/references/_shared/web/web-logic-auth.md` |
 | 文件与基础设施（上传/遍历/包含/部署/缓存/CDN/云） | `references/web-file-infra.md` |
 | **MSSQL 受限账户的文件写入 / 命令执行原语** | `references/web-playbook-25-mssql-file-write-and-exec-primitives.md` |
-| 部署安全 | `references/web-deployment-security.md` |
+| 部署安全 | `../pentest-flow/references/_shared/web/web-deployment-security.md` |
 
 ## 测试流程
 
@@ -94,10 +94,10 @@ metadata:
 
 ## 参考文档
 
-- `../web-pentest/references/web-injection.md` — 注入攻击详细参考
-- `../web-pentest/references/web-modern-protocols.md` — 现代协议安全
-- `../web-pentest/references/web-logic-auth.md` — 认证与逻辑漏洞
+- `../pentest-flow/references/_shared/web/web-injection.md` — 注入攻击详细参考
+- `../pentest-flow/references/_shared/web/web-modern-protocols.md` — 现代协议安全
+- `../pentest-flow/references/_shared/web/web-logic-auth.md` — 认证与逻辑漏洞
 - `references/web-file-infra.md` — 文件与基础设施安全
-- `references/web-deployment-security.md` — 部署安全
+- `../pentest-flow/references/_shared/web/web-deployment-security.md` — 部署安全
 - `references/web-ai-attack-map.md` — Web 与 AI 攻击映射
 - `references/web-playbook-*.md` — 各专项 Playbook（25 个）

@@ -29,7 +29,7 @@ metadata:
 ## 集成说明
 
 - 本 Skill 知识内容集成自上游 `Pa55w0rd/secknowledge-skill`（上游声明为 MIT License），本包按其知识结构做格式适配。
-- CTF/SRC 场景先加载 `references/ctf-src-routing.md` 判断资料入口，再按漏洞类型加载 `web-*`、`ai-*`、`testing-methodology.md` 或 `gaarm-risk-matrix.md`。
+- CTF/SRC 场景先加载 `references/ctf-src-routing.md` 判断资料入口，再按漏洞类型加载 `web-*`、`ai-*`、`../pentest-flow/references/_shared/misc/testing-methodology.md` 或 `../pentest-flow/references/_shared/misc/gaarm-risk-matrix.md`。
 - 与其余技能协同：CTF 单题技巧优先结合 `ctf-web`/`ctf-crypto`/`ctf-misc`，SRC 和实战漏洞挖掘优先使用本 Skill 的方法论、案例映射、风险矩阵和证据约束。
 - 输出时保留上游的授权边界、引用标注和"假设/确认"区分；未能从 reference 佐证的 payload、CVE、GAARM/OWASP 编号必须明确标注为未核对。
 
@@ -64,8 +64,8 @@ metadata:
 |---------|---------|---------|
 | CVE 编号 | 引用具体 reference 文件和章节，或标 "UNABLE TO CITE" 并按本地优先顺序核实 | 编造 CVE-YYYY-NNNN |
 | Payload | 从 `references/web-*.md` 或 `references/ai-*.md` 内 payload 章节引用 | 凭印象写 payload |
-| GAARM 风险编号 | 引用 `references/gaarm-risk-matrix.md` | 自造编号 |
-| OWASP 条目 | LLM01-10 / ASI01-10 / WSTG-* 引用 `testing-methodology.md §10.x` | 改写编号含义 |
+| GAARM 风险编号 | 引用 `../pentest-flow/references/_shared/misc/gaarm-risk-matrix.md` | 自造编号 |
+| OWASP 条目 | LLM01-10 / ASI01-10 / WSTG-* 引用 `../pentest-flow/references/_shared/misc/testing-methodology.md §10.x` | 改写编号含义 |
 | 工具/命令 | 仅使用在 reference 中出现过的，或明确标注 "通用命令（未在 reference 中核对）" | 伪造工具参数 |
 | 无检索结果 | "UNABLE TO ASSESS：reference 未覆盖此场景"，按本地优先顺序核实后再答 | 凭经验推测作为结论 |
 
@@ -147,9 +147,9 @@ metadata:
 
 | 场景 | reference |
 |------|----------|
-| L1-L4 思维金字塔 + WooYun 漏洞公式 + GAARM 映射 | `references/testing-methodology.md` |
-| OWASP Top 10 映射（LLM/ASI/WSTG）| `testing-methodology.md §10.1-10.3` |
-| GAARM 150 条风险编号 | `references/gaarm-risk-matrix.md` |
+| L1-L4 思维金字塔 + WooYun 漏洞公式 + GAARM 映射 | `../pentest-flow/references/_shared/misc/testing-methodology.md` |
+| OWASP Top 10 映射（LLM/ASI/WSTG）| `../pentest-flow/references/_shared/misc/testing-methodology.md §10.1-10.3` |
+| GAARM 150 条风险编号 | `../pentest-flow/references/_shared/misc/gaarm-risk-matrix.md` |
 
 ### Web 安全（按漏洞类型）
 
@@ -164,9 +164,9 @@ metadata:
 | 文件遍历 / 文件包含 | `references/web-traversal.md` |
 | 信息泄露（.git / 备份 / 错误信息）| `references/web-leak.md` |
 | SSRF / 服务器配置错误 / CMS+URL 附录 | `references/web-ssrf-misc.md` |
-| 越权 / 支付 / 密码重置 / 会话 / API 鉴权 | `../web-pentest/references/web-logic-auth.md` |
-| CORS / GraphQL / HTTP 走私 / WebSocket / OAuth | `../web-pentest/references/web-modern-protocols.md` |
-| 供应链 / 云配置 / 容器 / CI/CD / 框架 CVE | `../web-security-advanced/references/web-deployment-security.md` |
+| 越权 / 支付 / 密码重置 / 会话 / API 鉴权 | `../pentest-flow/references/_shared/web/web-logic-auth.md` |
+| CORS / GraphQL / HTTP 走私 / WebSocket / OAuth | `../pentest-flow/references/_shared/web/web-modern-protocols.md` |
+| 供应链 / 云配置 / 容器 / CI/CD / 框架 CVE | `../pentest-flow/references/_shared/web/web-deployment-security.md` |
 
 ### AI/LLM 安全（按 GAARM 阶段）
 
@@ -211,7 +211,7 @@ metadata:
 | 反序列化 / XXE Payload | `references/web-deser.md` / `references/web-xxe.md` |
 | 文件上传绕过 / 路径遍历 Payload | `references/web-upload.md` / `references/web-traversal.md` |
 | SSRF Payload | `references/web-ssrf-misc.md` |
-| Web 现代协议 Payload（GraphQL/HTTP 走私/WebSocket）| `../web-pentest/references/web-modern-protocols.md` |
+| Web 现代协议 Payload（GraphQL/HTTP 走私/WebSocket）| `../pentest-flow/references/_shared/web/web-modern-protocols.md` |
 | Prompt 注入 Payload | `references/ai-app-prompt.md` |
 | MCP 投毒 Payload | `references/ai-app-mcp.md` |
 | Agent / CoT 注入 Payload | `references/ai-app-agent-cot.md` |

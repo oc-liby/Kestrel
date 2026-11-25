@@ -18,7 +18,7 @@
 再把原文的 `dialogue(...)` 理解为"向目标发一次请求并记录完整响应 + 工具 trace"。
 **若目标不具备该清单对应的能力面，跳过该清单**（不硬测）。
 
-模型回复本身是观察数据，不是 verdict 依据；判定看工具 trace 与副作用（见 `../ai-redteam-methodology.md` 核心原则 7）。
+模型回复本身是观察数据，不是 verdict 依据；判定看工具 trace 与副作用（见 `../../../pentest-flow/references/_shared/ai/ai-redteam-methodology.md` 核心原则 7）。
 
 ## 清单一览（19 个）
 
@@ -43,7 +43,7 @@
 | `agent-policy-bypass-detection.md` | 护栏绕过、审批/HITL 绕过 | ASI03、ASI09、ASI01 |
 | `instruction-file-injection-detection.md` | 自动加载规则文件/Skill/MCP instructions 注入 | ASI01、ASI04、ASI09 |
 | `context-compaction-poisoning-detection.md` | 压缩/摘要/淘汰导致的持久化指令注入 | ASI06、ASI01、ASI03 |
-| `owasp-asi.md` | **OWASP ASI 2026 分类框架**（发现归类用，非检测清单） | — |
+| `../../../pentest-flow/references/_shared/ai/owasp-asi.md` | **OWASP ASI 2026 分类框架**（发现归类用，非检测清单） | — |
 
 ## 配套参考
 
@@ -57,7 +57,7 @@
 3. **按能力面展开**：有工具 → `tool-abuse` + `unexpected-code-execution` + `file-path-traversal`；
    有记忆/RAG → `memory-poisoning` + `memory-rag-poisoning`；
    有外连 → `web-exfiltration`；多 Agent → `inter-agent-comm-security`。
-4. **收尾归类**：用 `owasp-asi.md` 把发现映射到 ASI01–ASI10，写进报告。
+4. **收尾归类**：用 `../../../pentest-flow/references/_shared/ai/owasp-asi.md` 把发现映射到 ASI01–ASI10，写进报告。
 
 补充：有 MCP 工具元数据时优先 `mcp-tool-poisoning-detection`；有护栏/审批时优先 `agent-policy-bypass-detection`；有自动规则文件/Skill/MCP instructions 时优先 `instruction-file-injection-detection`；长会话/记忆复用优先 `context-compaction-poisoning-detection`。四者都可能触发工具动作，仍需与 `tool-abuse-detection` 交叉。
 
@@ -77,7 +77,7 @@
 原文的 `<vuln>` XML 块可保留作为结构化记录，但**最终报告按本工程 `reporting` 技能规范输出**：
 
 - 记录：标题、位置、证据（完整 prompt + 完整响应 + 工具 trace）、影响、修复建议
-- 分类：映射到 `ASI0x`（见 `owasp-asi.md`）
+- 分类：映射到 `ASI0x`（见 `../../../pentest-flow/references/_shared/ai/owasp-asi.md`）
 - 严重级别：与 `reporting` 口径取更严者
 - 多轮对话必须逐轮完整展示，不得合并成摘要
 

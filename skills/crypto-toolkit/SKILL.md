@@ -131,12 +131,12 @@ metadata:
 
 | 攻击场景 | 路由到 ctf-crypto | 参考文档 |
 |---------|-----------------|---------|
-| RSA 小指数/共模/Wiener | `ctf-crypto` | `../ctf-crypto/references/rsa-attacks-cheatsheet.md` |
-| AES Padding Oracle/ECB 翻转 | `ctf-crypto` | `../ctf-crypto/references/aes-and-block-cipher-attacks.md` |
-| ECC 小子群/离散对数 | `ctf-crypto` | `../ctf-crypto/references/ecc-attacks-cheatsheet.md` |
-| PRNG/MT19937 预测 | `ctf-crypto` | `../ctf-crypto/references/prng-and-stream-cipher-attacks.md` |
-| 古典密码（Vigenere/XOR） | `ctf-crypto` | `../ctf-crypto/references/classic-cipher-attacks.md` |
-| 格攻击/LWE | `ctf-crypto` | `../ctf-crypto/references/lattice-and-lwe-attacks.md` |
+| RSA 小指数/共模/Wiener | `ctf-crypto` | `../pentest-flow/references/_shared/crypto/rsa-attacks-cheatsheet.md` |
+| AES Padding Oracle/ECB 翻转 | `ctf-crypto` | `../pentest-flow/references/_shared/crypto/aes-and-block-cipher-attacks.md` |
+| ECC 小子群/离散对数 | `ctf-crypto` | `../pentest-flow/references/_shared/crypto/ecc-attacks-cheatsheet.md` |
+| PRNG/MT19937 预测 | `ctf-crypto` | `../pentest-flow/references/_shared/crypto/prng-and-stream-cipher-attacks.md` |
+| 古典密码（Vigenere/XOR） | `ctf-crypto` | `../pentest-flow/references/_shared/crypto/classic-cipher-attacks.md` |
+| 格攻击/LWE | `ctf-crypto` | `../pentest-flow/references/_shared/crypto/lattice-and-lwe-attacks.md` |
 
 **本 Skill 侧重编解码操作工具**，密码学具体攻击方法和参数请参考 `ctf-crypto`。
 

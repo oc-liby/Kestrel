@@ -4,7 +4,7 @@ description: Detect guardrail bypass and approval/HITL bypass in agents. Use whe
 ---
 
 > **本工程适配**：本清单按 Kestrel 的 send / observe 接口执行；多轮场景逐轮记录。
-> 概念与案例参考 [S08]–[S22]；分类见同目录 `owasp-asi.md`。
+> 概念与案例参考 [S08]–[S22]；分类见同目录 `../../../pentest-flow/references/_shared/ai/owasp-asi.md`。
 > **Stop rule**：同一子面确认一个 finding 后，停止该类探针。
 
 # Agent Policy Bypass Detection

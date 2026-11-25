@@ -46,6 +46,21 @@ class TestRule(unittest.TestCase):
     def test_unknown_syntax_unverified(self):
         self.assertIsNone(q.eval_rule('version in ["1.0"]', "1.0"))
 
+    def test_commit_hash_rule_unverified(self):
+        self.assertIsNone(q.eval_rule('version < "79778fa"', "0.5.0"))
+
+    def test_branch_rule_unverified(self):
+        self.assertIsNone(q.eval_rule('version < "0.x.y-security-1"', "0.5.0"))
+        self.assertIsNone(q.eval_rule('version < "git c91dbfc"', "0.5.0"))
+        self.assertIsNone(q.eval_rule('version < "20250606v2pro"', "0.5.0"))
+
+    def test_empty_target_unverified(self):
+        self.assertIsNone(q.eval_rule('version < ""', "1.0"))
+
+    def test_semver_suffix(self):
+        self.assertTrue(q.eval_rule('version < "1.2.3-rc1"', "1.2.2"))
+        self.assertFalse(q.eval_rule('version < "1.2.3-rc1"', "1.2.3"))
+
 
 class TestLookup(unittest.TestCase):
     def test_component_match(self):
@@ -74,6 +89,13 @@ class TestLookup(unittest.TestCase):
     def test_list_components(self):
         comps = {e["component_dir"] for e in IDX["entries"]}
         self.assertGreaterEqual(len(comps), 100)
+
+    def test_component_query_ignores_commit_rule(self):
+        entries = [e for e in IDX["entries"] if e["component_dir"] == "open-webui"]
+        hit = [e for e in entries if q.eval_rule(e["rule"], "0.5.0") is True]
+        self.assertFalse(any(e["cve"] == "CVE-2024-7999" for e in hit))
+        unv = [e for e in entries if q.eval_rule(e["rule"], "0.5.0") is None]
+        self.assertTrue(any(e["cve"] == "CVE-2024-7999" for e in unv))
 
 
 if __name__ == "__main__":

@@ -101,7 +101,7 @@ def gen_routing_md(skills, routing):
         "| 技能 | 版本 | 前置 | 阶段 |",
         "|---|---|---|---|",
     ]
-    ordered = [entry] + rest
+    ordered = [entry] + [n for n in mandatory if n != entry] + rest
     for name in ordered:
         meta = skills[name].get("metadata", {})
         req = ", ".join(meta.get("requires") or []) or "—"

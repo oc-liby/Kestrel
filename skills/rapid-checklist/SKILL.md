@@ -42,12 +42,12 @@ metadata:
 
 | 场景 | 快速定位 |
 |------|---------|
-| PHP 弱比较 → 0e 开头 MD5 值 | `ctf-web` → `../ctf-web/references/php-bypass-cheatsheet.md` |
-| 命令注入空格绕过 → ${IFS}/$IFS$9/< | `ctf-web` → `../ctf-web/references/command-injection-bypass.md` |
-| eval 无回显 → 写文件/DNS 外带 | `ctf-web` → `../ctf-web/references/eval-and-rce-techniques.md` |
-| RSA 小指数 → 立方根/Coppersmith | `ctf-crypto` → `../ctf-crypto/references/rsa-attacks-cheatsheet.md` |
-| Python Jail → `__import__`/func_globals | `ctf-misc` → `../ctf-misc/references/python-jail-escape.md` |
-| 编码链 → base64→hex→ROT13 多层 | `ctf-misc` → `../ctf-misc/references/encoding-chain-reference.md` |
+| PHP 弱比较 → 0e 开头 MD5 值 | `ctf-web` → `../pentest-flow/references/_shared/web/php-bypass-cheatsheet.md` |
+| 命令注入空格绕过 → ${IFS}/$IFS$9/< | `ctf-web` → `../pentest-flow/references/_shared/web/command-injection-bypass.md` |
+| eval 无回显 → 写文件/DNS 外带 | `ctf-web` → `../pentest-flow/references/_shared/web/eval-and-rce-techniques.md` |
+| RSA 小指数 → 立方根/Coppersmith | `ctf-crypto` → `../pentest-flow/references/_shared/crypto/rsa-attacks-cheatsheet.md` |
+| Python Jail → `__import__`/func_globals | `ctf-misc` → `../pentest-flow/references/_shared/ctf/python-jail-escape.md` |
+| 编码链 → base64→hex→ROT13 多层 | `ctf-misc` → `../pentest-flow/references/_shared/ctf/encoding-chain-reference.md` |
 
 ## 快速路由卡片
 
@@ -84,4 +84,4 @@ metadata:
 ## 参考文档
 
 - `references/08-rapid-checklists-and-payloads.md` — 速查与 Payload 整合参考
-- `../secknowledge-skill/references/testing-methodology.md` — 测试方法论
+- `../pentest-flow/references/_shared/misc/testing-methodology.md` — 测试方法论

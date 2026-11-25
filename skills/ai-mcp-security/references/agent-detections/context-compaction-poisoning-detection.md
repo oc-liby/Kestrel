@@ -4,7 +4,7 @@ description: Detect durable instruction injection through context compaction, su
 ---
 
 > **本工程适配**：本清单按 Kestrel 的 send / observe 接口执行；压缩/重置必须逐轮记录。
-> 概念与证据参考 [S23]–[S28]；分类见同目录 `owasp-asi.md`。
+> 概念与证据参考 [S23]–[S28]；分类见同目录 `../../../pentest-flow/references/_shared/ai/owasp-asi.md`。
 > **Stop rule**：同一存储面确认一个 finding 后，停止该类探针。
 
 # Context Compaction Poisoning Detection

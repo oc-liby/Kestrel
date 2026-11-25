@@ -3,7 +3,7 @@
 
 用法：
   python tools/check_contracts.py            # 默认：frontmatter + 依赖图 FAIL，跨技能引用 WARN
-  python tools/check_contracts.py --strict-refs  # P2 后启用：跨技能引用也 FAIL
+  python tools/check_contracts.py --strict-refs  # 全下沉后 CI 使用：跨技能引用也 FAIL
 """
 import argparse
 import re
@@ -150,7 +150,7 @@ def scan_cross_refs(metas, entry):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--strict-refs", action="store_true",
-                    help="跨技能引用也计入 FAIL（P2 后启用）")
+                    help="跨技能引用也计入 FAIL（全下沉后 CI 已启用）")
     args = ap.parse_args()
 
     metas, issues = collect()
@@ -162,7 +162,7 @@ def main():
             for n, rel in refs:
                 issues.append("%s: 跨技能引用 %s" % (n, rel))
         else:
-            print("WARN: %d 处跨技能直接引用（P2 迁移到 _shared 后启用 --strict-refs）" % len(refs))
+            print("WARN: %d 处跨技能直接引用（全下沉后应为 0；CI 使用 --strict-refs）" % len(refs))
             for n, rel in refs[:8]:
                 print("  - %s -> %s" % (n, rel))
 

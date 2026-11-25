@@ -4,7 +4,7 @@ description: Detect MCP tool metadata poisoning, rug pulls, cross-server shadowi
 ---
 
 > **本工程适配**：本清单按 Kestrel 的 send / observe 接口执行——向目标发一次请求并记录完整响应与工具 trace。
-> 概念与案例参考 [S01]–[S07]、[S42]；发现证据按 `reporting` 技能记录，分类见同目录 `owasp-asi.md`。
+> 概念与案例参考 [S01]–[S07]、[S42]；发现证据按 `reporting` 技能记录，分类见同目录 `../../../pentest-flow/references/_shared/ai/owasp-asi.md`。
 > **证据分级**：T1 发出调用 = candidate；T2 网络接触 / T3 数据外泄 = confirmed。详见同目录 `mcp-tool-poisoning-evidence.md`（[S42]）。
 > **Stop rule**：同一类问题确认一个 finding 后，停止该类探针。
 
@@ -100,4 +100,4 @@ description: Detect MCP tool metadata poisoning, rug pulls, cross-server shadowi
 
 - 只对授权测试 Server 修改描述；生产 Server 只读。
 - canary 用随机标记；不读取/外传真实凭据。
-- 参考：[S01] [S02] [S03] [S04] [S05] [S06] [S07] [S42]；分类映射见 `owasp-asi.md`。
+- 参考：[S01] [S02] [S03] [S04] [S05] [S06] [S07] [S42]；分类映射见 `../../../pentest-flow/references/_shared/ai/owasp-asi.md`。

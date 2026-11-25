@@ -27,17 +27,17 @@ metadata:
 
 | 攻击面 | 去哪里 |
 |---|---|
-| 认证 / 上传 / SQLi / XSS / SSRF / XXE / SSTI / 越权 / 业务逻辑 | `../web-pentest/SKILL.md` §7 方向深度清单 |
-| 反序列化 / RCE / gadget / 表达式注入 | `../exploitation/SKILL.md` §9 方向深度清单 |
-| 接口/API 面 | 本技能 §5 + `../web-pentest/references/web-modern-protocols.md` |
-| 版本/CVE | `../cve-triage/SKILL.md` |
-| 内网/域/横移 | `../intranet-pentest-advanced/SKILL.md` |
-| WAF 拦截 | `../waf-bypass/SKILL.md` |
-| 不确定从哪下手 | `../rapid-checklist/SKILL.md` |
+| 认证 / 上传 / SQLi / XSS / SSRF / XXE / SSTI / 越权 / 业务逻辑 | `web-pentest` §7 方向深度清单 |
+| 反序列化 / RCE / gadget / 表达式注入 | `exploitation` §9 方向深度清单 |
+| 接口/API 面 | 本技能 §5 + `../pentest-flow/references/_shared/web/web-modern-protocols.md` |
+| 版本/CVE | `cve-triage` |
+| 内网/域/横移 | `intranet-pentest-advanced` |
+| WAF 拦截 | `waf-bypass` |
+| 不确定从哪下手 | `rapid-checklist` |
 
 ## 1. 前置条件
 
-- 资产基线完成：TCP 全端口、每个开放端口有服务/版本/证据（`../recon/SKILL.md`）。
+- 资产基线完成：TCP 全端口、每个开放端口有服务/版本/证据（`recon`）。
 - 账本已建：`plan.md` 的 `## 攻击面账本` 每个资产/端口/服务至少一行。
 - 未完成基线不进入漏洞发现；先回 `recon`。
 

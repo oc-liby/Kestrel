@@ -47,10 +47,10 @@ metadata:
 | 数据泄露 / Prompt 泄漏 / 模型逆推 | `references/ai-data-security.md` |
 | 容器逃逸 / CI-CD / 沙箱失败 | `references/ai-baseline-security.md` |
 | 模型风险 / 对抗样本 / 后门 | `references/ai-model-security.md` |
-| 影响分类与覆盖评估 | `../secknowledge-skill/references/gaarm-risk-matrix.md` |
+| 影响分类与覆盖评估 | `../pentest-flow/references/_shared/misc/gaarm-risk-matrix.md` |
 | **要发 payload 做动态测试** | `references/operators/INDEX.md`（84 算子变异库） |
 | **要测 Agent 工作流能力面** | `references/agent-detections/INDEX.md`（19 个检测清单） |
-| **动态测试方法与报告口径** | `references/ai-redteam-methodology.md`（必读） |
+| **动态测试方法与报告口径** | `../pentest-flow/references/_shared/ai/ai-redteam-methodology.md`（必读） |
 
 ## 上下文预算（硬约束）
 
@@ -75,7 +75,7 @@ metadata:
 | 评测数据集 | `data/eval-datasets/` | 11 个数据集 / 1209 条样本（2026-11-23 核对），用于拒答边界评估与 ASR 统计 |
 | 渲染脚本 | `scripts/` | `render_operator.py`（算子渲染）、`select_operators.py`（信号粗筛）；编码链用共享的 `../pentest-flow/scripts/shared/encode.py` |
 
-**开展 AI 目标动态测试前必读** `references/ai-redteam-methodology.md`：第一性原理五步流程、
+**开展 AI 目标动态测试前必读** `../pentest-flow/references/_shared/ai/ai-redteam-methodology.md`：第一性原理五步流程、
 `defense_signals` 信号驱动变异、verdict 五态、≥30 payload 覆盖下限，以及本工程 RoE / 审批分级适配。
 
 ```bash
@@ -138,10 +138,10 @@ python3 "$KS/ai-mcp-security/scripts/select_operators.py" --help
 - `references/ai-data-security.md` — AI 数据安全
 - `references/ai-baseline-security.md` — AI 基线安全
 - `references/ai-model-security.md` — AI 模型安全
-- `../secknowledge-skill/references/gaarm-risk-matrix.md` — GAARM 风险矩阵
+- `../pentest-flow/references/_shared/misc/gaarm-risk-matrix.md` — GAARM 风险矩阵
 
 **红队资产（可执行，先读各自 INDEX）**
-- `references/ai-redteam-methodology.md` — 第一性原理红队方法论（动态测试必读）
+- `../pentest-flow/references/_shared/ai/ai-redteam-methodology.md` — 第一性原理红队方法论（动态测试必读）
 - `references/operators/INDEX.md` — 变异算子库（84 算子 / 27 家族）
 - `references/agent-detections/INDEX.md` — Agent 工作流检测清单（19 个）
 - `references/agent-attack-chains.md` — 六条组合攻击链（能力面 → 算子 → 观测点）

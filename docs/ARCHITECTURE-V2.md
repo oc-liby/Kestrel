@@ -1,6 +1,6 @@
 # Kestrel 架构演进设计（v2）
 
-> 状态：**已评审，Q1–Q6 已定**（2026-11-26）；实施按 §10 分阶段进行
+> 状态：**Q1–Q6 已定；P0–P3 已实施**（2026-11-26）；P4 按需，四客户端 smoke test 未做
 > 适用范围：Kestrel 仓库、24 个技能、4 个客户端
 > 关联：`docs/RULES-LAYERING.md`（规则分层重构记录）、`README.md`、`skills/pentest-flow/references/constitution.md`
 > 本文是设计文档，不是实施记录。
@@ -42,7 +42,7 @@
 |---|---|---|
 | 技能数 | 24 | `skills/*/SKILL.md` |
 | Markdown 文件 | 342 | `find skills -name '*.md'` |
-| 结构化数据 | 2440 YAML（2184 CVE + 256 非 CVE）+ 170 指纹 | `find skills/cve-triage/data -name '*.yaml'` |
+| 结构化数据 | 2440 YAML（2185 含 CVE 字段 + 255 advisory）+ 170 指纹 | `find skills/cve-triage/data -name '*.yaml'` |
 | Python 脚本 | 7（技能内 4 + tools 3） | `find . -name '*.py'` |
 | 仓库体积 | 14 MB（CVE 数据 9.8 MB，占 70%） | `du -sh skills` |
 | 常驻元数据 | 24 个 `description` 共 1633 字符 | 脚本统计 |
@@ -367,7 +367,7 @@ output:
 
 - 体积估算：2440 条 × ~200 字节 ≈ 500 KB，可接受；如过大可改为按组件分片。
 - 生成：`tools/check_data.py --build-index` 或独立 `tools/build_index.py`（建议合并到 `check_data.py --write`，保持工具数少）。
-- 非 CVE 规则（256 条）标记 `kind: "advisory"`，不进入 `entries` 或单独 `advisories` 数组；文档统一称"漏洞规则"。
+- 非 CVE 规则（255 条）标记 `kind: "advisory"`，不进入 `entries` 或单独 `advisories` 数组；文档统一称"漏洞规则"。
 
 #### 6.3.2 `aliases.json`（新增）
 
@@ -574,6 +574,22 @@ grep -L "BEGIN GENERATED PREAMBLE" skills/*/SKILL.md  # 只允许 pentest-flow
 | `client-reverse/references/02-client-api-reverse-and-burp.md` | `pentest-flow/references/_shared/client/02-client-api-reverse-and-burp.md` | `client-reverse`、`android-pentest` |
 | `waf-bypass/scripts/encode.py` + `ai-mcp-security/scripts/encodings.py` | `pentest-flow/scripts/shared/encode.py` | `waf-bypass`、`ai-mcp-security` |
 
+**全下沉（2026-11-26 补做）**：把所有被跨技能直接引用的 33 个 references 一并下沉，而不只处理重复文件：
+
+| 域 | 文件数 | 来源 |
+|---|---|---|
+| `_shared/web/` | 11 | web-pentest、web-security-advanced、ctf-web |
+| `_shared/crypto/` | 6 | ctf-crypto |
+| `_shared/ctf/` | 2 | ctf-misc |
+| `_shared/intranet/` | 8 | intranet-pentest-advanced |
+| `_shared/ai/` | 2 | ai-mcp-security |
+| `_shared/post/` | 2 | post-exploitation |
+| `_shared/misc/` | 2 | secknowledge-skill |
+
+- 7 处 `SKILL.md` 入口引用（vuln-discovery → 其他技能）改为技能名，不能下沉；
+- 迁移脚本重写 153 处相对路径；索引文件（`web-playbook-index.md`、`intranet-playbook-index.md`、`06-intranet-and-host-operations-integrated.md`、`web-ctf-quick-reference.md`）的裸文件名同步修正；
+- 结果：`check_contracts.py --strict-refs` 0 处跨技能引用，`check_links.py` 0 断链。
+
 - 每个原技能目录保留一层薄引用（不复制正文）：
   - `android-pentest/references/android-static-triage-and-callflow.md` 改为 3 行转发：
     ```markdown
@@ -669,7 +685,7 @@ grep -rn "references/android-static-triage-and-callflow.md" skills --include="*.
    - 未匹配 → 退出码 0 但输出 `matched: []`；参数错误 → 2。
 3. **文档更新**：
    - `cve-triage/SKILL.md` 的"三级查询"增加第 1.5 层：`query_cve.py`（比 grep 快、可版本匹配）；
-   - `INDEX.md` 改为"2440 条漏洞规则（2184 CVE + 256 安全公告/供应链规则）"；
+   - `INDEX.md` 改为"2440 条漏洞规则（2185 CVE + 255 安全公告/供应链规则）"；
    - 新增 `docs/UPDATE-DATA.md`：上游地址、字段映射、生成索引、校验、许可检查。
 4. **许可声明（不拆包，Q5 已定 B）**：
    - 数据集保持在 `ai-mcp-security/data/eval-datasets/`，不移动目录，避免技能内 4 处引用与 README / NOTICE 断链；
@@ -1160,18 +1176,25 @@ jobs:
 - [x] 删除 7 组重复文件（随 Q3 已定）；
 - [x] 证据哈希默认关闭（随 Q4 已定）；
 - [x] 版本起点 `v0.1.0`（随 Q6 已定）；
-- [ ] P0 是否立即执行（建议先做，独立产生价值）；
-- [ ] 主流程目标行数 250 是否可接受（若不同意，调整 §8 移出清单）；
-- [ ] 四客户端 smoke test 由谁执行、何时执行。
+- [x] P0–P3 已执行（§16）；
+- [x] 主流程 238 行（≤250）；
+- [ ] 四客户端 smoke test 由谁执行、何时执行（A11 未验证）。
 
 ## 16. 实施记录（2026-11-26）
 
 | 阶段 | 状态 | 交付 |
 |---|---|---|
 | P0 校验基础设施 | ✅ 完成 | `meta/routing.yaml`、`meta/skill.schema.json`、`check_contracts.py`、`check_links.py`、`check_data.py`、CI；24 个 frontmatter |
-| P1 路由生成 + 瘦身 | ✅ 完成 | `gen_router.py`、`routing.generated.md`、23 个 preamble；主流程 450 → 238 行 |
+| P1 路由生成 + 瘦身 | ✅ 完成 | `gen_router.py`、`routing.generated.md`、23 个 preamble；主流程 445 → 238 行；清单 24 行 |
 | P2 共享知识去重 | ✅ 完成 | `_shared/android/`（9 文件）、`_shared/client/`；完全重复 0；`encode.py` 合并 |
-| P3 知识查询 + 哈希 | ✅ 完成 | `build_index.py`、`cve-index.json`、`query_cve.py`（技能内）、`--stamp-hashes/--verify-hashes`、14 个测试 |
-| P4 可选 | ⏸ 未做 | `install.py`、schema 化、哈希默认开启（Q4 已定关闭）；许可声明已满足 |
+| P2.5 全下沉 | ✅ 完成（2026-11-26 补做） | 33 个跨技能 references → `_shared/{web,crypto,ctf,intranet,ai,post,misc}`；7 处入口引用改技能名；153 处路径重写；strict-refs 0 |
+| P3 知识查询 + 哈希 | ✅ 完成 | `build_index.py`、`cve-index.json`（2185 CVE + 255 advisory）、`query_cve.py`（技能内）、`--stamp-hashes/--verify-hashes`；query 19 个测试 |
+| P4 可选 | ⏸ 未做 | `install.py`、`meta/artifacts.schema.json` 化、哈希默认开启（Q4 已定关闭）；Q5 不拆包；四客户端 smoke test 未做 |
 
-**验收状态**：`gen_router --check`、`check_contracts`、`check_links`、`build_index --check`、`check_data --check`、`check_skill_budget` 全部 PASS；单元测试 20 个通过。
+**验收状态（2026-11-26 复跑）**：
+
+- `gen_router.py --check`、`check_contracts.py --strict-refs`、`check_links.py`、`build_index.py --check`、`check_data.py --check`、`check_skill_budget.py` 全部 PASS；
+- 单元测试 **32 个**通过（query 19 + check_artifacts 6 + hashes 5 + check_links 2）；
+- 主流程 238 行；路由清单 24/24；完全重复文件 0；`_shared` 44 个文件；153 处引用重写后断链 0；
+- 非版本 rule（commit hash / branch / 日期串）归入 `unverified`，不再误匹配；
+- 未完成：四客户端 smoke test（A11）；`install.py` 与 `artifacts.schema.json`（P4）；证据哈希默认关闭（Q4 决定）。

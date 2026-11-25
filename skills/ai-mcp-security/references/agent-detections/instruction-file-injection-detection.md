@@ -4,7 +4,7 @@ description: Detect auto-loaded instruction/policy file injection via AGENTS.md,
 ---
 
 > **本工程适配**：本清单按 Kestrel 的 send / observe 接口执行；逐轮记录加载与动作。
-> 概念与案例参考 [S08]–[S12]、[S33]；分类见同目录 `owasp-asi.md`。
+> 概念与案例参考 [S08]–[S12]、[S33]；分类见同目录 `../../../pentest-flow/references/_shared/ai/owasp-asi.md`。
 > **Stop rule**：同一文件类型确认一个 finding 后，停止该类探针。
 
 # Instruction File Injection Detection

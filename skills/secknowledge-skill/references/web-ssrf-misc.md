@@ -185,7 +185,7 @@ root/root | test/test
 
 ---
 
-> **供应链/云部署/框架CVE** → 已迁移至 [web-deployment-security.md](../../web-security-advanced/references/web-deployment-security.md)
-> **CORS/GraphQL/HTTP走私/WebSocket/OAuth** → 已迁移至 [web-modern-protocols.md](../../web-pentest/references/web-modern-protocols.md)
+> **供应链/云部署/框架CVE** → 已迁移至 [web-deployment-security.md](../../pentest-flow/references/_shared/web/web-deployment-security.md)
+> **CORS/GraphQL/HTTP走私/WebSocket/OAuth** → 已迁移至 [web-modern-protocols.md](../../pentest-flow/references/_shared/web/web-modern-protocols.md)
 
 *基于WooYun漏洞库(88,636条)提炼 | 仅供安全研究与防御参考*

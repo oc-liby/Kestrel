@@ -44,7 +44,7 @@ metadata:
 2. **如源码含 `highlight_file` → 用 python3 + strip_tags 提取纯源码**（webfetch 输出可能误读）
 3. 检查 robots.txt、.git/、.svn/、备份文件（index.php.bak、www.zip 等）
 4. 目录扫描（常见：/flag、/admin、/login、/upload、/api）
-5. 如有源码 → 进入代码审计模式（见 `php-code-audit-checklist.md`）
+5. 如有源码 → 进入代码审计模式（见 `../pentest-flow/references/_shared/web/php-code-audit-checklist.md`）
 6. 如无源码 → 主动探测注入点、上传点、文件包含
 
 ## 场景路由
@@ -53,16 +53,16 @@ metadata:
 |------|---------|---------|
 | ⭐ PHP 伪协议读文件（遇到文件包含/参数传文件名时优先尝试） | 见下方「PHP 伪协议速查」 | `php://filter` 直接读源码/flag |
 | 源码提取 | `source-code-extraction.md` | strip_tags 提取、php://filter、.phps、备份文件、完整性校验 |
-| PHP 弱比较/类型绕过 | `php-bypass-cheatsheet.md` | 0e 开头 MD5 值大全、数组绕过、extract() 覆写 |
-| ⭐ MD5 弱比较碰撞（`md5(a)==md5(b)` 弱比较） | `php-bypass-cheatsheet.md` | ⚠️ 0e 后必须纯数字！直接用 `QNKCDZO`+`240610708` 等已验证值 |
+| PHP 弱比较/类型绕过 | `../pentest-flow/references/_shared/web/php-bypass-cheatsheet.md` | 0e 开头 MD5 值大全、数组绕过、extract() 覆写 |
+| ⭐ MD5 弱比较碰撞（`md5(a)==md5(b)` 弱比较） | `../pentest-flow/references/_shared/web/php-bypass-cheatsheet.md` | ⚠️ 0e 后必须纯数字！直接用 `QNKCDZO`+`240610708` 等已验证值 |
 | ⭐ preg_replace/str_replace 双写绕过 | 见下方「双写绕过速查」 | `NSSNSSCTFCTF` → 替换后 = `NSSCTF` |
-| 命令注入空格绕过 | `command-injection-bypass.md` | ${IFS}/$IFS$9/</%09/%0a 全表 |
-| eval/RCE 技巧 | `eval-and-rce-techniques.md` | system/exec/passthru 区别、highlight_file 输出顺序、无回显外带 |
-| SSTI 注入链 | `ssti-injection-chains.md` | Jinja2/Twig/ERB/Mako 等注入链速查 |
-| 反序列化利用链 | `deserialization-playbook.md` | PHP/Java/Python 反序列化、SoapClient CRLF |
-| 文件上传 → RCE | `web-security-advanced` → `../web-security-advanced/references/web-playbook-08-file-vulnerabilities.md` | .htaccess 绕过、日志投毒、多语言 Webshell |
+| 命令注入空格绕过 | `../pentest-flow/references/_shared/web/command-injection-bypass.md` | ${IFS}/$IFS$9/</%09/%0a 全表 |
+| eval/RCE 技巧 | `../pentest-flow/references/_shared/web/eval-and-rce-techniques.md` | system/exec/passthru 区别、highlight_file 输出顺序、无回显外带 |
+| SSTI 注入链 | `../pentest-flow/references/_shared/web/ssti-injection-chains.md` | Jinja2/Twig/ERB/Mako 等注入链速查 |
+| 反序列化利用链 | `../pentest-flow/references/_shared/web/deserialization-playbook.md` | PHP/Java/Python 反序列化、SoapClient CRLF |
+| 文件上传 → RCE | `web-security-advanced` → `../pentest-flow/references/_shared/web/web-playbook-08-file-vulnerabilities.md` | .htaccess 绕过、日志投毒、多语言 Webshell |
 | CTF 快速参考 | `web-ctf-quick-reference.md` | flag 位置、常见链形状、响应头 hint |
-| PHP 代码审计 | `php-code-audit-checklist.md` | 输入入口→过滤→危险函数→输出分析 |
+| PHP 代码审计 | `../pentest-flow/references/_shared/web/php-code-audit-checklist.md` | 输入入口→过滤→危险函数→输出分析 |
 
 ## ⭐ PHP 伪协议速查（文件包含/参数传文件名时优先尝试）
 
@@ -121,14 +121,14 @@ metadata:
 | 题目特征 | 可能考点 | 推荐参考 |
 |---------|---------|---------|
 | 参数接受文件名/路径 | ⭐ **先试 php://filter 读 flag** | 见上方「PHP 伪协议速查」 |
-| 页面只有登录框 | SQL 注入 / 弱口令 / 条件竞争 | php-bypass-cheatsheet.md |
-| 页面有代码展示 | 代码审计 | php-code-audit-checklist.md |
-| eval/system 字样 | RCE + 空格/关键字绕过 | eval-and-rce-techniques.md + command-injection-bypass.md |
+| 页面只有登录框 | SQL 注入 / 弱口令 / 条件竞争 | ../pentest-flow/references/_shared/web/php-bypass-cheatsheet.md |
+| 页面有代码展示 | 代码审计 | ../pentest-flow/references/_shared/web/php-code-audit-checklist.md |
+| eval/system 字样 | RCE + 空格/关键字绕过 | ../pentest-flow/references/_shared/web/eval-and-rce-techniques.md + ../pentest-flow/references/_shared/web/command-injection-bypass.md |
 | eval + 长度限制 | RCE + `$_GET` 链式传参绕长度 | 见下方「RCE + 长度限制绕过」 |
-| 文件上传功能 | 后缀绕过 / MIME 绕过 | `web-security-advanced` → `../web-security-advanced/references/web-playbook-08-file-vulnerabilities.md` |
-| 页面模板渲染 | SSTI | ssti-injection-chains.md |
-| 序列化/反序列化 | PHP/Java 反序列化 | deserialization-playbook.md |
-| 有 WAF/过滤提示 | 正则绕过 / 编码绕过 | php-bypass-cheatsheet.md + command-injection-bypass.md |
+| 文件上传功能 | 后缀绕过 / MIME 绕过 | `web-security-advanced` → `../pentest-flow/references/_shared/web/web-playbook-08-file-vulnerabilities.md` |
+| 页面模板渲染 | SSTI | ../pentest-flow/references/_shared/web/ssti-injection-chains.md |
+| 序列化/反序列化 | PHP/Java 反序列化 | ../pentest-flow/references/_shared/web/deserialization-playbook.md |
+| 有 WAF/过滤提示 | 正则绕过 / 编码绕过 | ../pentest-flow/references/_shared/web/php-bypass-cheatsheet.md + ../pentest-flow/references/_shared/web/command-injection-bypass.md |
 
 ## RCE + 长度限制绕过（首推策略）
 

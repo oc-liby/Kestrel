@@ -36,7 +36,7 @@ Use this skill for authorized security testing, defense validation, training, or
 - 框架漏洞: `web-playbook-05-framework-vulnerabilities.md`
 - 请求走私: `web-playbook-06-request-smuggling.md`
 - 认证漏洞: `web-playbook-07-authentication-vulnerabilities.md`
-- 文件漏洞: `web-playbook-08-file-vulnerabilities.md`
+- 文件漏洞: `../../pentest-flow/references/_shared/web/web-playbook-08-file-vulnerabilities.md`
 - 业务逻辑漏洞: `web-playbook-09-business-logic-vulnerabilities.md`
 - 原型链污染: `web-playbook-10-prototype-pollution.md`
 - 云安全漏洞: `web-playbook-11-cloud-security-vulnerabilities.md`

@@ -48,7 +48,7 @@
 ## 与动态测试的配合
 
 数据集样本是动态测试三类样本之一（另两类：算子变异样本、Agent 手工构造样本）。
-**建议配比**（A.I.G 方法论，见 `../../references/ai-redteam-methodology.md`）：
+**建议配比**（A.I.G 方法论，见 `../../../pentest-flow/references/_shared/ai/ai-redteam-methodology.md`）：
 
 - 数据集原始样本 ≥10 条
 - 算子变异样本 ≥10 条（用 `references/operators/` 的算子生成）

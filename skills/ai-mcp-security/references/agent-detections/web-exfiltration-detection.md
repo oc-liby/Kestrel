@@ -5,7 +5,7 @@ description: Detect data exfiltration via URL path encoding and chained web_fetc
 
 > **本工程适配**：本清单源自 [tencent/AI-Infra-Guard](https://github.com/Tencent/AI-Infra-Guard) agent-scan 检测技能（Apache-2.0，腾讯朱雀实验室）。
 > 原文的 `dialogue(...)` 调用对应本工程的 **send / observe 接口**——对目标 AI 应用 / Agent / MCP Server 发请求，记录完整响应与工具 trace。
-> 发现证据按 `reporting` 技能记录；风险分类见同目录 `owasp-asi.md`。
+> 发现证据按 `reporting` 技能记录；风险分类见同目录 `../../../pentest-flow/references/_shared/ai/owasp-asi.md`。
 
 # Web Exfiltration Detection
 

@@ -13,6 +13,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SKILL = ROOT / "skills" / "ai-mcp-security"
 POST = ROOT / "skills" / "post-exploitation"
+SHARED_POST = ROOT / "skills" / "pentest-flow" / "references" / "_shared" / "post"
 
 # 行数上限：检测清单按设计预算；算子按现有体例给 90 行余量。
 CAPS = {
@@ -38,8 +39,8 @@ CAPS = {
 }
 
 POST_CAPS = {
-    "references/shell-stabilization.md": 150,
-    "references/channel-decision.md": 100,
+    "shared/shell-stabilization.md": 150,
+    "shared/channel-decision.md": 100,
     "references/shell-stabilization-containers.md": 150,
     "references/shell-stabilization-linux.md": 150,
     "references/shell-stabilization-windows.md": 150,
@@ -73,8 +74,12 @@ def main() -> None:
     for skill_dir, caps in ((SKILL, CAPS), (POST, POST_CAPS)):
         for rel, cap in caps.items():
             total += 1
-            path = skill_dir / rel
-            label = f"{skill_dir.name}/{rel}"
+            if rel.startswith("shared/"):
+                path = SHARED_POST / rel[len("shared/"):]
+                label = "shared/post/" + rel[len("shared/"):]
+            else:
+                path = skill_dir / rel
+                label = f"{skill_dir.name}/{rel}"
             if not path.exists():
                 print(f"MISS {label}")
                 failures.append(label)

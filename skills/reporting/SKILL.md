@@ -64,7 +64,7 @@ metadata:
 
 ## AI 目标补充要求（目标含 LLM / Agent / MCP / Skill 时）
 
-在以上结构基础上追加（方法论见 `../ai-mcp-security/references/ai-redteam-methodology.md`）：
+在以上结构基础上追加（方法论见 `../pentest-flow/references/_shared/ai/ai-redteam-methodology.md`）：
 
 ### A. Agent 画像（放在执行摘要之后）
 用业务语言说明：目标像什么岗位、主要用户是谁、能接触什么数据、能调用哪些工具、
@@ -84,7 +84,7 @@ payload 发送总数（**不得少于 30**）、数据集样本数、算子变�
 - 每个 finding 的证据为**精确 prompt / 请求 + 完整响应 + 工具 trace**
 - **多轮对话逐轮完整展示**，每轮含：轮次、测试目标、完整请求、完整响应、工具 trace、verdict、下一轮决策依据
 - 不得用 `...`、`[省略]`、`[截断]`、摘要替代原文；长内容可用可折叠块，但内容须完整存在
-- 分类标注 `ASI0x`（见 `../ai-mcp-security/references/agent-detections/owasp-asi.md`）
+- 分类标注 `ASI0x`（见 `../pentest-flow/references/_shared/ai/owasp-asi.md`）
 
 ### E. 正面防御证据（新增章节）
 逐条记录关键 `resisted` 测试：测试目标、攻击者尝试、目标实际响应、防御信号、为什么这是有效防御、如何纳入回归。
