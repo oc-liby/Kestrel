@@ -36,7 +36,8 @@ def build():
     entries = []
     advisories = []
     total = 0
-    for f in sorted(DATA.rglob("*.yaml")):
+    # 用 as_posix 字符串排序，避免 Windows（大小写不敏感）与 Linux 生成顺序不同。
+    for f in sorted(DATA.rglob("*.yaml"), key=lambda p: p.relative_to(DATA).as_posix()):
         total += 1
         d = yaml.safe_load(f.read_text(encoding="utf-8"))
         if not isinstance(d, dict):
