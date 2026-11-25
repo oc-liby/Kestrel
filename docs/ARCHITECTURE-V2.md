@@ -112,7 +112,7 @@
 3. **声明式优先于手工。** 能用 frontmatter / YAML 表达的，不写在正文表格里；能用生成器产出的，不手工复制。
 4. **生成物可校验、幂等。** 生成文件带 `DO NOT EDIT` 标记；`--check` 模式在 CI 中比对，不一致即失败；重复运行结果字节一致。
 5. **向后兼容优先。** 旧字段、旧格式、旧产物路径保留读取路径；新格式只 WARN 不 FAIL，直到下一个大版本。
-6. **安全默认。** 入口技能必须显式依赖；高影响操作必须有回滚记录；受限许可数据拆包隔离，**默认安装**，并在 README / NOTICE 标注许可限制。
+6. **安全默认。** 入口技能必须显式依赖；高影响操作必须有回滚记录；受限许可数据**保持现状不拆包**，许可限制写入 README / NOTICE。
 7. **最小改动。** 优先复用现有目录与文件，不为了"架构漂亮"搬家；`skills/` 仍是安装单元。
 
 ---
@@ -141,7 +141,7 @@
 │ 知识包 Knowledge（数据 + 索引 + 许可）                         │
 │  - cve-triage/data/aig-vuln/（2440 规则 + index + aliases）   │
 │  - recon/data/aig-fingerprints/（170 指纹）                   │
-│  - 数据集包（CC-BY-NC 数据集，默认安装，许可限制见 NOTICE）      │
+│  - 数据集（CC-BY-NC 等，随包分发，许可限制见 NOTICE）            │
 └─────────────────────────────────────────────────────────────┘
 
 开发时工具（不安装）：
@@ -201,6 +201,7 @@ Kestrel/
 
 **允许**：
 
+- `pentest-flow`（entry）→ 任意技能：门禁依赖、大文件索引、通道验收等内核级引用
 - 技能 → 内核（`requires: [pentest-flow]`）
 - 技能 → `_shared`（`../pentest-flow/references/_shared/...`）
 - 技能 → 自有 `references/`、`scripts/`
@@ -209,9 +210,11 @@ Kestrel/
 
 **禁止**：
 
-- 技能 A → 技能 B 的 `references/` 直接路径引用（应下沉到 `_shared` 或改为声明式 `requires`）
+- **非 entry 技能** → 其他能力包的 `references/` 直接路径引用（应下沉到 `_shared` 或改为声明式 `requires`）
 - 技能 → 仓库根以外的路径
 - 生成物被手工修改
+
+> 方向性约束：`check_contracts.py` 按 `skill != entry` 判断，entry 自身的跨技能引用合法。
 
 **依赖图规则**：
 
@@ -317,7 +320,7 @@ output:
 
 **`--check` 模式**：生成到内存，与磁盘文件比较；不一致输出 diff 并退出 1。CI 使用此模式。
 
-**降级模式**（如果评审决定不引入生成）：
+**回退模式**（仅 P1 回退时使用，不作为实施路径）：
 
 - 保留手工路由表；
 - `gen_router.py --check` 只校验"每个技能恰好出现一次、mandatory 全覆盖、requires 已声明"；
@@ -603,7 +606,7 @@ grep -L "BEGIN GENERATED PREAMBLE" skills/*/SKILL.md  # 只允许 pentest-flow
 2. 无环（DFS）；
 3. 非 entry 技能 `requires` 包含 `pentest-flow`；
 4. `entry` 唯一；
-5. 禁止技能之间直接 `references/` 路径引用（正则扫描 Markdown 链接与反引号路径；白名单：`_shared`、本技能目录）。
+5. 禁止**非 entry 技能**直接引用其他能力包的 `references/` 路径（正则扫描 Markdown 链接与反引号路径；白名单：`_shared`、本技能目录、entry）。entry（`pentest-flow`）可引用任意技能。
 
 **第四步：链接检查脚本化。**
 
@@ -668,10 +671,10 @@ grep -rn "references/android-static-triage-and-callflow.md" skills --include="*.
    - `cve-triage/SKILL.md` 的"三级查询"增加第 1.5 层：`query_cve.py`（比 grep 快、可版本匹配）；
    - `INDEX.md` 改为"2440 条漏洞规则（2184 CVE + 256 安全公告/供应链规则）"；
    - 新增 `docs/UPDATE-DATA.md`：上游地址、字段映射、生成索引、校验、许可检查。
-4. **许可隔离**：
-   - `ai-mcp-security/data/eval-datasets/` 中 2 个未声明 + 3 个 CC-BY-NC 数据集移至 `skills/ai-mcp-security/data-optional/`，**默认安装**（`cp -a skills/.` 自然包含；`install.py` 也默认包含，另提供 `--no-optional-data` 排除）；许可限制写入 `NOTICE` 与 `README`；
-   - **默认安装包含**；`README` 说明商用前需自行评估 CC-BY-NC 限制；
-   - `check_data.py` 校验 `THIRD_PARTY_NOTICES.md` 覆盖。
+4. **许可声明（不拆包，Q5 已定 B）**：
+   - 数据集保持在 `ai-mcp-security/data/eval-datasets/`，不移动目录，避免技能内 4 处引用与 README / NOTICE 断链；
+   - `README` 与 `THIRD_PARTY_NOTICES.md` 写明数据集许可（含 CC-BY-NC 的商用限制）；
+   - `check_data.py` 校验 `THIRD_PARTY_NOTICES.md` 覆盖全部数据集。
 
 #### 验收
 
@@ -686,7 +689,7 @@ python -m unittest tools.test_query_cve -v
 #### 回退
 
 - 删除新增索引与脚本，恢复 `SKILL.md` 的三级查询表；
-- 数据目录不移动（许可隔离单独提交，可独立回退）。
+- 数据目录不移动（Q5 已定 B）；许可声明变更可独立回退。
 
 ### 7.4 R4：产物契约与检查器分层
 
@@ -817,12 +820,12 @@ python tools/check_artifacts.py --verify-hashes <样例>   # 哈希正确时 0
 
 ## 10. 迁移计划
 
-### P0：校验基础设施（1–2 天，不改内容）
+### P0：校验基础设施（2–3 天，不改内容）
 
 | 项 | 内容 |
 |---|---|
 | 新增 | `meta/skill.schema.json`、`meta/routing.yaml`（初版）、`tools/check_contracts.py`、`tools/check_links.py`、`tools/check_data.py`、`.github/workflows/ci.yml` |
-| 修改 | 24 个 `SKILL.md` 补 `version/entry/requires/triggers`（不改正文、不改路由） |
+| 修改 | 24 个 `SKILL.md` 补 `version/entry/requires/triggers`（不改正文、不改路由）；**triggers 从现有主流程 196–248 行路由表逐条迁移，不重新创作** |
 | 验收 | `check_contracts` / `check_links` / `check_data --check` 全部 0；现有行为不变 |
 | 回退 | 删除新增文件；frontmatter 新字段可保留 |
 | 风险 | 低 |
@@ -862,7 +865,7 @@ python tools/check_artifacts.py --verify-hashes <样例>   # 哈希正确时 0
 ### P4：可选（按需）
 
 - `tools/install.py` + `--doctor`；
-- 受限数据拆 `data-optional/`，默认安装，许可限制写入 NOTICE；
+- 受限数据不拆包；许可限制写入 NOTICE / README；
 - `check_artifacts.py` 完全 schema 化；
 - 证据哈希默认开启（需用户决策）。
 
@@ -939,7 +942,7 @@ python tools/query_cve.py --cve CVE-2025-55182 --json
 | R4 | 主流程瘦身后 agent 漏读细节 | 中 | 高 | 强制门禁保留在主流程；每个移出段落写明"何时读"；P1 后用真实交战回归 2–3 轮 | `git revert` |
 | R5 | `query_cve` 版本比较错误导致漏报 | 中 | 高 | 语义化版本测试矩阵（含预发布、非数字段）；无法解析 → `unverified` 不猜 | 停用查询，回退 grep |
 | R6 | 证据哈希破坏旧产物 | 低 | 中 | 默认关闭；`--verify-hashes` 才 FAIL；旧产物 WARN | 删除哈希行 |
-| R7 | 数据许可处理不当 | 低 | 高 | 受限数据拆 `data-optional/` 但默认安装；`check_data` 校验 NOTICE 与 README 的许可声明 | 恢复原目录 |
+| R7 | 数据许可处理不当 | 低 | 高 | 数据不拆包；`check_data` 校验 NOTICE / README 的许可声明 | 补声明 |
 | R8 | 生成物造成 diff 噪音 | 中 | 低 | 固定排序、固定格式、无时间戳 | 只改生成器，不重生成 |
 | R9 | 共享知识迁移后旧链接失效 | 中 | 中 | 项目未发布，判定可接受；如需兼容保留 3 行转发 | 恢复副本 |
 
@@ -953,7 +956,7 @@ python tools/query_cve.py --cve CVE-2025-55182 --json
 | Q2 | 共享知识放哪里？ | A. `skills/pentest-flow/references/_shared/`（内核附属）<br>B. `skills/_shared/`（顶层）<br>C. 保持跨技能直接引用 | **A（已定）**：不新增技能顶层目录，客户端风险最低 |
 | Q3 | 是否删除 7 组重复文件并改引用？ | A. 删除 + 改引用<br>B. 保留转发占位 | **A（已定）**：项目未发布，无外部消费者；先落 `check_links.py` |
 | Q4 | 是否引入证据哈希？ | A. 默认关闭、可选开启<br>B. 默认开启<br>C. 不做 | **A（已定）**：先解决"能验证"，不强制改变旧流程；只覆盖 evidence + approvals |
-| Q5 | 受限数据集是否拆为可选包？ | A. 拆 `data-optional/`，默认安装<br>B. 保持现状 + 文档声明 | **A（已定）**：目录隔离 + 默认安装；许可限制写入 README / NOTICE |
+| Q5 | 受限数据集是否拆为可选包？ | A. 拆 `data-optional/`（默认装或默认不装）<br>B. 保持现状 + 文档声明 | **B（已定，评审调整）**：不拆包，保持路径稳定；许可限制写入 README / NOTICE。曾考虑拆包 + 默认安装，因 `cp -a` 无法排除、4 处技能内引用需同步而放弃 |
 | Q6 | 版本起点 | A. 套件 `v0.1.0`，技能 `0.1.0`<br>B. 直接 `v1.0.0` | **A（已定）**：当前是草案阶段，`1.0` 会误导稳定性 |
 
 ---
@@ -1153,10 +1156,10 @@ jobs:
 评审时请逐项确认：
 
 - [x] Q1–Q6 六个开放问题已有结论；
+- [x] 共享知识位置 `pentest-flow/references/_shared/`（随 Q2 已定）；
+- [x] 删除 7 组重复文件（随 Q3 已定）；
+- [x] 证据哈希默认关闭（随 Q4 已定）；
+- [x] 版本起点 `v0.1.0`（随 Q6 已定）；
 - [ ] P0 是否立即执行（建议先做，独立产生价值）；
 - [ ] 主流程目标行数 250 是否可接受（若不同意，调整 §8 移出清单）；
-- [ ] 共享知识位置 `pentest-flow/references/_shared/` 是否认可；
-- [ ] 是否接受删除 7 组重复文件（项目未发布）；
-- [ ] 证据哈希默认关闭是否符合合规预期；
-- [ ] 版本起点 `v0.1.0` 是否认可；
 - [ ] 四客户端 smoke test 由谁执行、何时执行。

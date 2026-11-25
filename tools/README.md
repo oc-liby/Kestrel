@@ -36,3 +36,8 @@ python tools/check_skill_budget.py
 ```
 
 退出码：`0` = PASS，`1` = 超预算或文件缺失。
+
+## 开发 / CI 依赖
+
+- `tools/check_data.py`（P0 新增）需要 **PyYAML** 解析 CVE YAML；只在开发/CI 运行。
+- 运行时脚本（`check_artifacts.py`、`check_skill_budget.py`）仍只用标准库，保持零依赖。
