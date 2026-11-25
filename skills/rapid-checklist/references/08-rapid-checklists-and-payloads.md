@@ -22,7 +22,7 @@ Use it only after routing is clear. It is meant for fast lookup, not for replaci
 
 - 先看 `../../web-security-advanced/references/web-playbook-index.md`（`web-security-advanced` Skill）
 - 如果是输入点验证，优先分成 `SQLi`、`XSS`、`command execution`、`SSTI`、`XXE`
-- 如果请求是客户端构造的，先回到 `../../client-reverse/references/02-client-api-reverse-and-burp.md`
+- 如果请求是客户端构造的，先回到 `../../pentest-flow/references/_shared/client/02-client-api-reverse-and-burp.md`
 
 ### Auth, logic, token, or state bugs
 
@@ -38,9 +38,9 @@ Use it only after routing is clear. It is meant for fast lookup, not for replaci
 
 ### Android runtime, packet visibility, or sign recovery
 
-- 先看 `../../client-reverse/references/android-external-url-runtime-first-workflow.md`
-- 如果要靠界面状态推进，继续看 `../../client-reverse/references/android-ui-driven-observation-and-packet-loop.md`
-- 只有抓不到包、包不透明或重放受阻时，再进入 `../../client-reverse/references/android-signing-and-crypto-workflow.md`
+- 先看 `../../pentest-flow/references/_shared/android/android-external-url-runtime-first-workflow.md`
+- 如果要靠界面状态推进，继续看 `../../pentest-flow/references/_shared/android/android-ui-driven-observation-and-packet-loop.md`
+- 只有抓不到包、包不透明或重放受阻时，再进入 `../../pentest-flow/references/_shared/android/android-signing-and-crypto-workflow.md`
 
 ### AI, agent, or MCP exposure
 
@@ -147,7 +147,7 @@ Use families, not copied full lists, unless the current task specifically needs 
 ## Escalation Rule
 
 - If the route is still unclear, go back to the upstream 00-usage-and-routing.md (not bundled).
-- If packet visibility or replay is blocked, go back to `../../client-reverse/references/02-client-api-reverse-and-burp.md` or the matching browser or Android workflow.
+- If packet visibility or replay is blocked, go back to `../../pentest-flow/references/_shared/client/02-client-api-reverse-and-burp.md` or the matching browser or Android workflow.
 - If you need exact original payload wording or exhaustive raw examples, use the Web Rapid Cards section above or open the relevant `web-playbook-*.md` files in `web-security-advanced`.
 
 

@@ -32,8 +32,8 @@ For browser or Android request-generation tasks, always include:
 
 ### Android
 
-- workflow: `android-signing-and-crypto-workflow.md`
-- persistent record: `android-signature-reverse-template.md`
+- workflow: `../../pentest-flow/references/_shared/android/android-signing-and-crypto-workflow.md`
+- persistent record: `../../pentest-flow/references/_shared/android/android-signature-reverse-template.md`
 
 ## Final Handoff Checklist
 

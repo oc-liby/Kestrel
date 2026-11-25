@@ -83,12 +83,12 @@ metadata:
 
 ## 参考文档
 
-- `references/02-client-api-reverse-and-burp.md` — 客户端逆向到 Burp 重放总工作流
-- `references/android-authorized-app-pentest-sop.md` — 安卓 App 渗透 SOP
+- `../pentest-flow/references/_shared/client/02-client-api-reverse-and-burp.md` — 客户端逆向到 Burp 重放总工作流
+- `../pentest-flow/references/_shared/android/android-authorized-app-pentest-sop.md` — 安卓 App 渗透 SOP
 - `references/browser-js-signing-workflow.md` — 浏览器 JS 签名工作流
-- `references/android-signing-and-crypto-workflow.md` — 安卓签名与加密工作流
-- `references/android-ui-driven-observation-and-packet-loop.md` — 安卓 UI 驱动观察循环
-- `references/android-external-url-runtime-first-workflow.md` — 安卓外部 URL 测试
-- `references/android-network-layer-testing-quick-reference.md` — 安卓网络层测试速查
+- `../pentest-flow/references/_shared/android/android-signing-and-crypto-workflow.md` — 安卓签名与加密工作流
+- `../pentest-flow/references/_shared/android/android-ui-driven-observation-and-packet-loop.md` — 安卓 UI 驱动观察循环
+- `../pentest-flow/references/_shared/android/android-external-url-runtime-first-workflow.md` — 安卓外部 URL 测试
+- `../pentest-flow/references/_shared/android/android-network-layer-testing-quick-reference.md` — 安卓网络层测试速查
 - `references/MCP.md` — MCP 能力总文档
 - `references/tool-selection-map.md` — 工具选型地图

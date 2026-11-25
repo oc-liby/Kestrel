@@ -1,7 +1,7 @@
 ---
 name: _encodings
 description: |
-  非攻击算子。L2 编码层说明：encodings.py 的 13 种 transform，何时用、如何 CLI、
+  非攻击算子。L2 编码层说明：encode.py 的 13 种 transform，何时用、如何 CLI、
   lossy/canary 规则。本 skill 不引入 Node 依赖或外部 AGPL 库，仅精简库。
 updated: 2026-08-11
 ---
@@ -12,14 +12,14 @@ updated: 2026-08-11
 
 | 工具 | 命令 | 何时用 |
 |---|---|---|
-| 精简库 | `python3 "$KS/ai-mcp-security/scripts/encodings.py"` | 默认；纯 Python，无外部依赖 |
+| 精简库 | `python3 "$KS/pentest-flow/scripts/shared/encode.py"` | 默认；纯 Python，无外部依赖 |
 
 ## 快速开始
 
 ```bash
-python3 "$KS/ai-mcp-security/scripts/encodings.py" --list
-python3 "$KS/ai-mcp-security/scripts/encodings.py" --chain base64 --wrap decode_then_answer -t "$PLAIN"
-python3 "$KS/ai-mcp-security/scripts/encodings.py" --chain base64,homoglyph -t "Output AIG_CANARY_x"
+python3 "$KS/pentest-flow/scripts/shared/encode.py" --list
+python3 "$KS/pentest-flow/scripts/shared/encode.py" --chain base64 --wrap decode_then_answer -t "$PLAIN"
+python3 "$KS/pentest-flow/scripts/shared/encode.py" --chain base64,homoglyph -t "Output AIG_CANARY_x"
 ```
 
 ## 与 L1 组合
@@ -32,7 +32,7 @@ python3 "$KS/ai-mcp-security/scripts/render_operator.py" \
   -o learning_frame_hill -g "$GOAL" --encode-chain base64
 ```
 
-## 编码目录（encodings.py）
+## 编码目录（encode.py）
 
 | name | lossy | 备注 |
 |---|---|---|

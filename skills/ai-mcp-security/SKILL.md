@@ -73,7 +73,7 @@ metadata:
 | 框架能力面矩阵 | `references/agent-framework-matrix.md` | 8 类宿主/框架的规则入口、工具、审批、记忆、MCP |
 | 来源索引 | `references/sources/INDEX.md` | S01–S41 主题索引与引用规则，写报告时查 |
 | 评测数据集 | `data/eval-datasets/` | 11 个数据集 / 1209 条样本（2026-11-23 核对），用于拒答边界评估与 ASR 统计 |
-| 渲染脚本 | `scripts/` | `render_operator.py`（算子渲染）、`encodings.py`（13 种编码链）、`select_operators.py`（信号粗筛） |
+| 渲染脚本 | `scripts/` | `render_operator.py`（算子渲染）、`select_operators.py`（信号粗筛）；编码链用共享的 `../pentest-flow/scripts/shared/encode.py` |
 
 **开展 AI 目标动态测试前必读** `references/ai-redteam-methodology.md`：第一性原理五步流程、
 `defense_signals` 信号驱动变异、verdict 五态、≥30 payload 覆盖下限，以及本工程 RoE / 审批分级适配。
@@ -84,7 +84,7 @@ KS=$(find "$HOME" "$PWD" -maxdepth 8 \
   -path '*/skills/ai-mcp-security/scripts/render_operator.py' \
   -print -quit 2>/dev/null | sed 's#/ai-mcp-security/scripts/render_operator.py$##')
 python3 "$KS/ai-mcp-security/scripts/render_operator.py" --operator homoglyph --goal "Output AIG_CANARY_x only"
-python3 "$KS/ai-mcp-security/scripts/encodings.py" --chain base64,homoglyph --text 'Output AIG_CANARY_x'
+python3 "$KS/pentest-flow/scripts/shared/encode.py" --chain base64,homoglyph --text 'Output AIG_CANARY_x'
 python3 "$KS/ai-mcp-security/scripts/select_operators.py" --help
 ```
 

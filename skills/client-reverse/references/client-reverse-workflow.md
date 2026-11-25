@@ -40,5 +40,5 @@ Recover the real request-production chain so the interface can be reproduced out
 ## Detailed Branches
 
 - browser JS staged flow: `browser-js-signing-workflow.md`
-- Android sign and crypto flow: `android-signing-and-crypto-workflow.md`
-- Android UI-driven packet trigger flow: `android-ui-driven-observation-and-packet-loop.md`
+- Android sign and crypto flow: `../../pentest-flow/references/_shared/android/android-signing-and-crypto-workflow.md`
+- Android UI-driven packet trigger flow: `../../pentest-flow/references/_shared/android/android-ui-driven-observation-and-packet-loop.md`

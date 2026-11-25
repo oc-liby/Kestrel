@@ -113,11 +113,11 @@ metadata:
 # 按 pentest-flow 的「定位技能脚本」找到本技能根目录；下面给出等价的直接定位
 # Windows 用 python 替代 python3
 KS=$(find "$HOME" "$PWD" -maxdepth 8 \
-  -path '*/skills/waf-bypass/scripts/encode.py' \
-  -print -quit 2>/dev/null | sed 's#/waf-bypass/scripts/encode.py$##')
-python3 "$KS/waf-bypass/scripts/encode.py" --list
-python3 "$KS/waf-bypass/scripts/encode.py" --encode url --text 'union select 1,2,3'
-python3 "$KS/waf-bypass/scripts/encode.py" --chain base64,homoglyph --text 'SELECT * FROM users'
+  -path '*/skills/pentest-flow/scripts/shared/encode.py' \
+  -print -quit 2>/dev/null | sed 's#/pentest-flow/scripts/shared/encode.py$##')
+python3 "$KS/pentest-flow/scripts/shared/encode.py" --list
+python3 "$KS/pentest-flow/scripts/shared/encode.py" --encode url --text 'union select 1,2,3'
+python3 "$KS/pentest-flow/scripts/shared/encode.py" --chain base64,homoglyph --text 'SELECT * FROM users'
 ```
 
 > 找不到脚本时，按 `pentest-flow` 的「定位技能脚本」询问用户技能安装目录；不要猜路径。

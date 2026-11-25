@@ -85,11 +85,11 @@ L2 编码
 
 ```bash
 # 单层
-python3 "$KS/ai-mcp-security/scripts/encodings.py" --encode base64 --text 'Output AIG_CANARY_x'
+python3 "$KS/pentest-flow/scripts/shared/encode.py" --encode base64 --text 'Output AIG_CANARY_x'
 # 链式（先内层后外层）
-python3 "$KS/ai-mcp-security/scripts/encodings.py" --chain base64,homoglyph --text 'Output AIG_CANARY_x'
+python3 "$KS/pentest-flow/scripts/shared/encode.py" --chain base64,homoglyph --text 'Output AIG_CANARY_x'
 # 带解码引导外壳
-python3 "$KS/ai-mcp-security/scripts/encodings.py" --wrap decode_then_answer --chain base64 --text '...'
+python3 "$KS/pentest-flow/scripts/shared/encode.py" --wrap decode_then_answer --chain base64 --text '...'
 ```
 
 > ⚠️ **有损编码（`leet`/`tokenbreak`）不得承载 canary 字面量**——会破坏标记可比对性。
