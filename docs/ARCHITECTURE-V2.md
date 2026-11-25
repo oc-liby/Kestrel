@@ -1163,3 +1163,15 @@ jobs:
 - [ ] P0 是否立即执行（建议先做，独立产生价值）；
 - [ ] 主流程目标行数 250 是否可接受（若不同意，调整 §8 移出清单）；
 - [ ] 四客户端 smoke test 由谁执行、何时执行。
+
+## 16. 实施记录（2026-11-26）
+
+| 阶段 | 状态 | 交付 |
+|---|---|---|
+| P0 校验基础设施 | ✅ 完成 | `meta/routing.yaml`、`meta/skill.schema.json`、`check_contracts.py`、`check_links.py`、`check_data.py`、CI；24 个 frontmatter |
+| P1 路由生成 + 瘦身 | ✅ 完成 | `gen_router.py`、`routing.generated.md`、23 个 preamble；主流程 450 → 238 行 |
+| P2 共享知识去重 | ✅ 完成 | `_shared/android/`（9 文件）、`_shared/client/`；完全重复 0；`encode.py` 合并 |
+| P3 知识查询 + 哈希 | ✅ 完成 | `build_index.py`、`cve-index.json`、`query_cve.py`（技能内）、`--stamp-hashes/--verify-hashes`、14 个测试 |
+| P4 可选 | ⏸ 未做 | `install.py`、schema 化、哈希默认开启（Q4 已定关闭）；许可声明已满足 |
+
+**验收状态**：`gen_router --check`、`check_contracts`、`check_links`、`build_index --check`、`check_data --check`、`check_skill_budget` 全部 PASS；单元测试 20 个通过。
