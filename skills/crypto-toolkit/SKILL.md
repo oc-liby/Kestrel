@@ -2,6 +2,11 @@
 name: crypto-toolkit
 description: 编码解码与加解密工具 — base64/URL/Hex/HTML实体编码解码，MD5/SHA哈希，AES/DES/RSA加解密，JWT解析，Caesar/ROT13密码，栅栏/Vigenere密码，Unicode转义，Morse电码等
 metadata:
+  version: "0.1.0"
+  entry: false
+  requires: [pentest-flow]
+  triggers:
+    - "遇到编码 / 哈希 / 加密数据要还原（JWT、AES 密文、哈希识别等）"
   layer: "knowledge"
   risk: "low"
   phase: "cross-cutting"

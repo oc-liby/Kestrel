@@ -2,6 +2,11 @@
 name: osint-recon
 description: OSINT 开源情报收集知识库 — 四维信息收集模型（服务器→网站→域名→人员），维度四（人员信息）条件触发
 metadata:
+  version: "0.1.0"
+  entry: false
+  requires: [pentest-flow]
+  triggers:
+    - "目标只有域名 / 公司名，需要子域、证书、人员等公开情报"
   layer: "flow"
   risk: "none"
   phase: "recon"

@@ -2,6 +2,12 @@
 name: recon
 description: 信息收集：端口/子域/目录/指纹/技术栈。触发：目标已确定、需要资产基线或拿到新 IP 时加载。
 metadata:
+  version: "0.1.0"
+  entry: false
+  requires: [pentest-flow]
+  triggers:
+    - "目标已确定（IP / 域名 / URL）"
+    - "侦察前"
   layer: "flow"
   risk: "low"
   phase: "recon"

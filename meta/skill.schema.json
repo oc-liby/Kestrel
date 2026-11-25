@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Kestrel skill frontmatter",
+  "type": "object",
+  "required": ["name", "description", "metadata"],
+  "additionalProperties": true,
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*$"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 20,
+      "maxLength": 200
+    },
+    "metadata": {
+      "type": "object",
+      "required": ["version", "entry", "requires", "triggers"],
+      "additionalProperties": true,
+      "properties": {
+        "version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "entry": {
+          "type": "boolean"
+        },
+        "requires": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "triggers": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        },
+        "provides": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "phase": {
+          "type": "string"
+        },
+        "layer": {
+          "enum": ["constitution", "flow", "skill", "knowledge"]
+        },
+        "risk": {
+          "enum": ["none", "low", "medium", "high"]
+        },
+        "task_types": {
+          "type": "string",
+          "minLength": 1
+        },
+        "load_mode": {
+          "enum": ["on-signal", "always"]
+        }
+      }
+    }
+  }
+}

@@ -2,6 +2,12 @@
 name: ctf-crypto
 description: "CTF密码学攻击知识库 — RSA（小指数/共模/Wiener/Coppersmith）、AES（Padding Oracle/ECB/GCM nonce）、ECC、LFSR/LCG/PRNG、古典密码、LWE格攻击"
 metadata:
+  version: "0.1.0"
+  entry: false
+  requires: [pentest-flow]
+  triggers:
+    - "用户声明任务为 CTF 靶场"
+    - "遇到密码学构造攻击：RSA 弱参数、AES 模式缺陷、PRNG 可预测"
   layer: "skill"
   risk: "medium"
   phase: "exploitation"

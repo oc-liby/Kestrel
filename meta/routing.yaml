@@ -1,0 +1,27 @@
+schema_version: 1
+entry: pentest-flow
+
+# 所有非 entry 技能的默认前置（技能自身 requires 可覆盖）
+default_requires: [pentest-flow]
+
+# 强制门禁：triggers 命中时必须出现在 plan.md 的「技能加载」表
+mandatory: [recon, web-pentest, cve-triage, ai-mcp-security, exploitation, post-exploitation, vuln-discovery]
+
+# 阶段顺序：生成表按此排序；未列出的阶段排在最后，按 id 字典序
+phase_order: [recon, vuln-discovery, exploitation, post-exploitation, reporting, cross-cutting]
+
+# 分类提示（只用于阅读与生成分组，不重复 triggers 文本）
+groups:
+  recon: [recon, osint-recon]
+  web: [web-pentest, web-security-advanced, waf-bypass]
+  vuln: [vuln-discovery, cve-triage, exploitation]
+  post: [post-exploitation, intranet-pentest-advanced, redteam-playbooks]
+  ai: [ai-mcp-security]
+  ctf: [ctf-web, ctf-crypto, ctf-misc]
+  client: [android-pentest, client-reverse, crypto-toolkit]
+  support: [pentest-tools, rapid-checklist, secknowledge-skill, hackerone, reporting]
+
+output:
+  file: skills/pentest-flow/references/routing.generated.md
+  marker_begin: "<!-- BEGIN GENERATED ROUTING -->"
+  marker_end: "<!-- END GENERATED ROUTING -->"

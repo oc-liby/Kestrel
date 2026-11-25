@@ -2,6 +2,12 @@
 name: ctf-web
 description: CTF Web攻击知识库 — PHP弱比较绕过、命令注入空格绕过、eval回显技巧、SSTI注入链、反序列化利用链、PHP代码审计checklist、常见flag位置
 metadata:
+  version: "0.1.0"
+  entry: false
+  requires: [pentest-flow]
+  triggers:
+    - "用户声明任务为 CTF 靶场"
+    - "需要 PHP 源码审计，或弱比较 / 命令注入 / 伪协议的精确绕过值"
   layer: "skill"
   risk: "medium"
   phase: "exploitation"

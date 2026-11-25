@@ -2,6 +2,11 @@
 name: web-security-advanced
 description: Web高级安全测试 — 注入攻击族、协议安全、认证与逻辑漏洞、文件与部署安全、现代Web攻击面，含完整Playbook
 metadata:
+  version: "0.1.0"
+  entry: false
+  requires: [pentest-flow]
+  triggers:
+    - "深度清单的协议 / 逻辑 / 文件类需要展开（走私、OAuth、GraphQL、竞态、文件包含等）"
   layer: "skill"
   risk: "medium"
   phase: "vuln-discovery,exploitation"

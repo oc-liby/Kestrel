@@ -2,6 +2,11 @@
 name: secknowledge-skill
 description: "Web+AI 安全测试知识库（WooYun/先知/GAARM/OWASP）：用于渗透、挖洞、红队、审计、CTF 与 LLM/MCP/Agent 安全测试；不用于概念讨论、普通业务修复或仅查 CVE。"
 metadata:
+  version: "0.1.0"
+  entry: false
+  requires: [pentest-flow]
+  triggers:
+    - "需要方法论映射或案例检索（WooYun / GAARM / OWASP 归类）"
   layer: "knowledge"
   risk: "low"
   phase: "cross-cutting"

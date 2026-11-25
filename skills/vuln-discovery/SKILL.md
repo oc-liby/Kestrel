@@ -2,6 +2,11 @@
 name: vuln-discovery
 description: 按攻击面列出深度测试清单。触发：资产基线完成、所有端口已入账、需要决定下一步测什么时加载。
 metadata:
+  version: "0.1.0"
+  entry: false
+  requires: [pentest-flow]
+  triggers:
+    - "有 HTTP/API 接口面，开始列深度清单前"
   layer: "skill"
   risk: "low"
   phase: "vuln-discovery"

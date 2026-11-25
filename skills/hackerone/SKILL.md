@@ -2,6 +2,11 @@
 name: hackerone
 description: "HackerOne 赏金流程 — 读取项目 scope，执行范围与项目规则校验，把范围内资产交给 pentest-flow。"
 metadata:
+  version: "0.1.0"
+  entry: false
+  requires: [pentest-flow]
+  triggers:
+    - "用户声明任务为 HackerOne 项目"
   layer: "knowledge"
   risk: "low"
   phase: "cross-cutting"

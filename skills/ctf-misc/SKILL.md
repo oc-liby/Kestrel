@@ -2,6 +2,12 @@
 name: ctf-misc
 description: CTF杂项知识库 — Python Jail逃逸、Bash Jail逃逸、编码链识别与解码、QR/音频/图像隐写、游戏VM逆向、CTFd API导航、Linux提权
 metadata:
+  version: "0.1.0"
+  entry: false
+  requires: [pentest-flow]
+  triggers:
+    - "用户声明任务为 CTF 靶场"
+    - "拿到受限 shell / jail，需要逃逸"
   layer: "skill"
   risk: "medium"
   phase: "exploitation"

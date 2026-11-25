@@ -2,6 +2,11 @@
 name: redteam-playbooks
 description: 红队实战方法论补充（Claude-Red 精选）— 竞态/请求走私/GraphQL/HPP/反序列化/JWT/OAuth/API/业务逻辑/云/容器/K8s/CI-CD 密钥/快速 triage；用于补齐现有 Web/API/内网技能的缺口
 metadata:
+  version: "0.1.0"
+  entry: false
+  requires: [pentest-flow]
+  triggers:
+    - "需要完整攻击链路（K8s / CI-CD / 云 / 供应链），现有技能只覆盖单点手法"
   layer: "knowledge"
   risk: "medium"
   phase: "vuln-discovery,exploitation"

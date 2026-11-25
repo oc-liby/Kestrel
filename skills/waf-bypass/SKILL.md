@@ -2,6 +2,11 @@
 name: waf-bypass
 description: WAF 绕过技巧库。触发：请求被 403/406/拦截页挡住，需要编码/分块/混淆绕过时加载。
 metadata:
+  version: "0.1.0"
+  entry: false
+  requires: [pentest-flow]
+  triggers:
+    - "请求被 WAF 拦截（403 / 406 / 拦截页），已有绕过方法不够"
   layer: "knowledge"
   risk: "high"
   phase: "cross-cutting"

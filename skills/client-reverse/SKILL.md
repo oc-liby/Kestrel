@@ -2,6 +2,11 @@
 name: client-reverse
 description: 客户端逆向与Burp重放 — 复杂客户端签名恢复、加密还原、请求链追踪、稳定重放，适用于已授权安卓App渗透测试、浏览器JS签名、桌面客户端逆向
 metadata:
+  version: "0.1.0"
+  entry: false
+  requires: [pentest-flow]
+  triggers:
+    - "请求有签名 / 加密体 / 前端混淆，需要还原签名或请求链"
   layer: "skill"
   risk: "medium"
   phase: "vuln-discovery"

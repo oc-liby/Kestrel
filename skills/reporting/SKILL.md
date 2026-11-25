@@ -2,6 +2,11 @@
 name: reporting
 description: 结构化报告与 PoC 整理。触发：用户明确要求报告时加载；只写 findings.md，不新建 report.md。
 metadata:
+  version: "0.1.0"
+  entry: false
+  requires: [pentest-flow]
+  triggers:
+    - "用户明确要求报告"
   layer: "knowledge"
   risk: "none"
   phase: "reporting"

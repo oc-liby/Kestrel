@@ -2,6 +2,11 @@
 name: rapid-checklist
 description: 渗透速查与Payload — 快速Payload家族、绕过提醒、验证顺序、常见测试卡片，适用于已知测试方向后快速查找
 metadata:
+  version: "0.1.0"
+  entry: false
+  requires: [pentest-flow]
+  triggers:
+    - "需要一个方向的完整 payload 清单做覆盖核对"
   layer: "flow"
   risk: "low"
   phase: "cross-cutting"

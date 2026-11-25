@@ -2,6 +2,12 @@
 name: ai-mcp-security
 description: AI与MCP安全评估 — Prompt注入、工具滥用、MCP信任边界、Agent权限逃逸、数据泄露、模型风险、GAARM风险矩阵
 metadata:
+  version: "0.1.0"
+  entry: false
+  requires: [pentest-flow]
+  triggers:
+    - "发现 AI / Agent / MCP 端点（/assistant/chat、/memories、/skills、/prompt-gen、/mcp、tool_calls、模型服务等）"
+    - "AI 动态 payload 前"
   layer: "skill"
   risk: "medium"
   phase: "vuln-discovery"

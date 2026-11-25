@@ -37,6 +37,31 @@ python tools/check_skill_budget.py
 
 退出码：`0` = PASS，`1` = 超预算或文件缺失。
 
+## check_contracts.py
+
+校验 24 个技能 frontmatter 的必填字段、`entry` 唯一、`requires` 无环且指向存在；跨技能直接引用先以 WARN 输出，P2 迁移后启用 `--strict-refs`。
+
+```bash
+python tools/check_contracts.py
+python tools/check_contracts.py --strict-refs   # P2 后
+```
+
+## check_links.py
+
+扫描 `skills/**/*.md` 中的相对 `.md` 引用（反引号与 Markdown 链接），输出断链；跳过 URL、通配符、产物名与外部示例。
+
+```bash
+python tools/check_links.py
+```
+
+## check_data.py
+
+校验 2440 个 CVE YAML 可解析、组件内 CVE 唯一、`index.json` 与实际目录一致、`THIRD_PARTY_NOTICES.md` 覆盖全部数据集。
+
+```bash
+python tools/check_data.py --check
+```
+
 ## 开发 / CI 依赖
 
 - `tools/check_data.py`（P0 新增）需要 **PyYAML** 解析 CVE YAML；只在开发/CI 运行。
