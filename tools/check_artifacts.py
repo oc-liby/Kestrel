@@ -252,7 +252,7 @@ def check_env_map(work, issues, warnings):
     tables = (
         ("## 节点", LEDGER_STATUSES, "节点"),
         ("## 边", LEDGER_STATUSES, "边"),
-        ("## 目标", {"untested", "testing", "confirmed", "negative", "blocked"}, "目标"),
+        ("## 目标", {"untested", "confirmed", "blocked"}, "目标"),
     )
     for heading, statuses, name in tables:
         header, rows = parse_section_table(text, heading)

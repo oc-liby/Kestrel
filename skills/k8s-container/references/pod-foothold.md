@@ -1,14 +1,14 @@
 # Pod 立足点
 
 > 拿到 Pod/容器执行能力后，先只读枚举身份、挂载、能力与网络；写操作按 §14。
-> 证据落 `evidence/src/`，token 脱敏。
+> 证据落 `evidence/src/`，保留原文。
 
 ## Service Account
 
 ```bash
 ls -l /var/run/secrets/kubernetes.io/serviceaccount/
 cat /var/run/secrets/kubernetes.io/serviceaccount/namespace
-cat /var/run/secrets/kubernetes.io/serviceaccount/token | cut -c1-20   # 只留前缀记录
+cat /var/run/secrets/kubernetes.io/serviceaccount/token   # 记录原文
 ```
 
 - token 用于 API 认证；只在授权范围内使用。
@@ -60,5 +60,5 @@ curl -s --max-time 3 http://169.254.169.254/latest/meta-data/    # 通用
 
 ## 证据
 
-- 身份（namespace/SA）、挂载表、caps、网络、进程、metadata 响应（脱敏）。
+- 身份（namespace/SA）、挂载表、caps、网络、进程、metadata 响应。
 - 每项一行「来源 → 发现」；供权限账本引用。

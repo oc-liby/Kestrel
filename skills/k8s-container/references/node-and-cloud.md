@@ -24,7 +24,7 @@ curl -s --max-time 3 http://169.254.169.254/latest/meta-data/
 curl -s --max-time 3 -H 'Metadata-Flavor: Google' http://169.254.169.254/computeMetadata/v1/
 ```
 
-- 只读：instance-id、region、role 名、临时凭据（脱敏）。
+- 只读：instance-id、region、role 名、临时凭据。
 - 用凭据调云 API：只读枚举（L2/L3）；改基础设施（L4）。
 - 记录：metadata 路径、响应字段、凭据来源与权限范围。
 
@@ -41,5 +41,5 @@ curl -s --max-time 3 -H 'Metadata-Flavor: Google' http://169.254.169.254/compute
 
 ## 证据
 
-- metadata 响应（脱敏）、role/权限、云 API 返回、node identity。
+- metadata 响应、role/权限、云 API 返回、node identity。
 - 每项一行「入口 → 发现 → 权限范围」。

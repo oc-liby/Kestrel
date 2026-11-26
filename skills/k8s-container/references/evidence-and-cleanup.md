@@ -1,6 +1,6 @@
 # 证据与清理
 
-> 容器/K8s 交战的证据格式、脱敏与对象清理；与 `cleanup.md` 联动。
+> 容器/K8s 交战的证据格式与对象清理；与 `cleanup.md` 联动。
 
 ## 证据格式
 
@@ -8,14 +8,14 @@
 
 | 类型 | 内容 | 路径 |
 |---|---|---|
-| API 响应 | JSON 原文（脱敏） | `evidence/src/` |
+| API 响应 | JSON 原文 | `evidence/src/` |
 | manifest | `kubectl get -o yaml` | `evidence/src/` |
-| token | 前缀 + 来源 + 过期 | `evidence/src/`（不落全量） |
+| token | 原文 + 来源 + 过期 | `evidence/src/` |
 | 挂载/caps | mountinfo、CapEff、status | `evidence/src/` |
 | node/云 | instance-id、role、metadata 字段 | `evidence/src/` |
 | 路径 | 攻击路径导出（KubeHound/手工表） | `attack-path.md` 引用 |
 
-脱敏：token 只留前 8 位；secret 只记 key；metadata 隐去 account/subscription 全量。
+证据保留原文；凭据/令牌按授权环境存储，不对外扩散。
 
 ## 清理对象
 

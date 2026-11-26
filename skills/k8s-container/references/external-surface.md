@@ -1,7 +1,7 @@
 # 外部面：API / kubelet / etcd / dashboard
 
 > 从集群外部或初始入口可达的只读面；写/exec 按宪法 §14 L4。
-> 证据落 `evidence/src/`，脱敏后引用。
+> 证据落 `evidence/src/`，保留原文。
 
 ## 6443 API Server
 
@@ -61,5 +61,5 @@ curl -k https://<host>:2379/v2/keys/   # v2 未授权时
 
 ## 证据
 
-- 每项：URL、状态码、响应片段（脱敏）、证书 subject/issuer、版本。
+- 每项：URL、状态码、响应片段、证书 subject/issuer、版本。
 - 写成「入口 → 结果」一行，便于权限账本引用。

@@ -78,7 +78,7 @@ metadata:
 
 ## 证据与清理
 
-- 每阶段落盘：API 响应、manifest、token（脱敏）、mount/caps、node identity、cloud metadata（脱敏）。
+- 每阶段落盘：API 响应、manifest、token、mount/caps、node identity、cloud metadata。
 - 创建对象立即记 `cleanup.md`；删除后 `kubectl get` 复测。
 - 见 `references/evidence-and-cleanup.md`。
 

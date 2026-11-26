@@ -27,7 +27,7 @@ kubectl get pv,pvc -A
 kubectl get ingress -A
 ```
 
-- `get secrets` 成功 → 读取价值高；脱敏记录 key，不落明文。
+- `get secrets` 成功 → 读取价值高；记录 key 与值（授权环境）。
 - `nodes -o wide` 给宿主机 IP/主机名，衔接 `node-and-cloud.md`。
 
 ## 工具
@@ -51,5 +51,5 @@ kubectl get ingress -A
 ## 注意
 
 - 只读优先；不为了枚举创建对象。
-- Secret/token 不落明文；记录 key 与来源。
+- Secret/token 原文记录；标注来源与用途。
 - 发现集群管理员级权限时，先确认 RoE `highest_control` 与停止条件。

@@ -6,7 +6,7 @@
 |---|---|---|
 | 6443 API | `kubectl auth can-i --list`、`kubectl-who-can`、KubiScan | 匿名先试；不写 |
 | 10250 kubelet | Kubeletctl、Peirates | 只读 exec 先确认 |
-| SA token | Peirates、kubectl | token 脱敏 |
+| SA token | Peirates、kubectl | 记录来源与用途 |
 | docker.sock | CDK、BotB、Deepce | 容器逃逸 L4 |
 | privileged/hostPath | CDK、BotB、手工 mount | 先记录 mount/caps |
 | 内核/运行时版本 | CDK evaluate、searchsploit、cve-triage | 不盲打 PoC |
