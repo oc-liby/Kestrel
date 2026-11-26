@@ -100,7 +100,9 @@ agent 会建立 `Work/OC-10.0.0.5/`，写 RoE，画资产基线，然后按账�
 ```text
 Work/OC-<target>/
   roe.yaml          # 授权范围
-  plan.md           # 攻击面账本、深度清单、覆盖清单、复盘、结束检查
+  plan.md           # 攻击面账本、深度清单、覆盖清单、假设、权限账本、复盘、结束检查
+  attack-path.md    # 入口 → 最高控制权路径
+  env-map.md        # 环境心智地图（RCE 后重画）
   findings.md       # 交付物
   approvals.md      # ⚠️ 操作授权记录
   cleanup.md        # 清理账本
