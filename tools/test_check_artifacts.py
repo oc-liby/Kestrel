@@ -285,5 +285,84 @@ class K8sEngagementTest(unittest.TestCase):
         self.assertTrue([i for i in issues if "P-99" in i], issues)
 
 
+def build_env_map(node_status="confirmed", edge_status="confirmed",
+                  target_status="untested", with_evidence=True):
+    """生成最小 env-map.md，用于格式检查回归。"""
+    evidence = "`evidence/x.txt`" if with_evidence else "-"
+    return f"""# 环境心智地图 — OC-test
+
+## 元数据
+
+| 项 | 值 |
+|---|---|
+| 当前节点 | N-01 |
+| 当前权限 | user |
+| 当前通道 | S0 |
+
+## 节点
+
+| ID | 类型 | 地址 | 归属 | 版本/指纹 | 权限 | 凭据 | 状态 | 证据 |
+|---|---|---|---|---|---|---|---|---|
+| N-01 | app | 10.0.0.5:80 | target | demo 1.0 | anonymous | - | {node_status} | {evidence} |
+
+## 边
+
+| ID | 从 → 到 | 类型 | 条件 | 状态 | 证据 |
+|---|---|---|---|---|---|
+| E-01 | N-01 → N-02 | network | 双网卡 | {edge_status} | {evidence} |
+
+## 目标
+
+| ID | 目标 | 位置 | 通向它的边 | 状态 |
+|---|---|---|---|---|
+| G-01 | host SSH | N-02 | E-01 | {target_status} |
+"""
+
+
+class EnvMapFormatTest(unittest.TestCase):
+    """env-map.md 可选格式检查：存在才校验，不存在不报错。"""
+
+    def issues_for(self, env_map=None):
+        with tempfile.TemporaryDirectory() as tmp:
+            work = Path(tmp)
+            (work / "roe.yaml").write_text(
+                'engagement:\n  target: "10.0.0.5"\n', encoding="utf-8"
+            )
+            (work / "findings.md").write_text("# findings\n", encoding="utf-8")
+            (work / "evidence").mkdir()
+            (work / "evidence" / "x.txt").write_text("proof\n", encoding="utf-8")
+            (work / "plan.md").write_text(
+                build_plan("rce", with_channel=True), encoding="utf-8"
+            )
+            if env_map is not None:
+                (work / "env-map.md").write_text(env_map, encoding="utf-8")
+            issues, _warnings = check_artifacts.lint(str(work))
+            return [i for i in issues if "env-map" in i]
+
+    def test_missing_env_map_does_not_fail(self) -> None:
+        """无 env-map.md 时不报错（可选产物）。"""
+        self.assertEqual(self.issues_for(), [])
+
+    def test_valid_env_map_passes(self) -> None:
+        self.assertEqual(self.issues_for(build_env_map()), [])
+
+    def test_missing_node_table_fails(self) -> None:
+        text = build_env_map().replace("## 节点", "## 节点X")
+        issues = self.issues_for(text)
+        self.assertTrue([i for i in issues if "## 节点" in i], issues)
+
+    def test_invalid_status_fails(self) -> None:
+        issues = self.issues_for(build_env_map(node_status="open"))
+        self.assertTrue([i for i in issues if "状态非法" in i], issues)
+
+    def test_confirmed_without_evidence_fails(self) -> None:
+        issues = self.issues_for(build_env_map(with_evidence=False))
+        self.assertTrue([i for i in issues if "无证据" in i], issues)
+
+    def test_blocked_without_attempt_fails(self) -> None:
+        issues = self.issues_for(build_env_map(edge_status="blocked"))
+        self.assertTrue([i for i in issues if "blocked 但无已尝试" in i], issues)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

@@ -14,7 +14,7 @@ SKILL_NAMES = {p.name for p in SKILLS.iterdir() if p.is_dir()}
 
 # 产物名 / 外部示例：不作为路径解析
 PRODUCT_NAMES = {"plan.md", "findings.md", "notes.md", "approvals.md",
-                 "cleanup.md", "challenges.md", "report.md"}
+                 "cleanup.md", "challenges.md", "report.md", "env-map.md"}
 EXTERNAL = {"CLAUDE.md", "AGENTS.md", ".github/copilot-instructions.md",
             "docs/README.md", "README.md", "SKILL.md"}
 

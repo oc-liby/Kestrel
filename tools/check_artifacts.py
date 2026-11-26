@@ -237,6 +237,46 @@ def check_v3_tables(work, plan, issues, warnings):
                     issues.append("attack-path 第 %d 行引用 #%s，账本中不存在" % (n, ref))
 
 
+def check_env_map(work, issues, warnings):
+    """env-map.md 可选格式检查：文件存在时校验表结构与状态取值。
+
+    文件不存在不报错——地图是可选工作产物，是否要求由 end-checklist 决定；
+    这里只做格式辅助，不作结束门禁。
+    """
+    path = os.path.join(work, "env-map.md")
+    text = read_text(path)
+    if text is None:
+        return
+
+    # 节点/边与攻击面账本同 7 态；目标与 ## 假设 同 5 态（无 candidate / n/a）
+    tables = (
+        ("## 节点", LEDGER_STATUSES, "节点"),
+        ("## 边", LEDGER_STATUSES, "边"),
+        ("## 目标", {"untested", "testing", "confirmed", "negative", "blocked"}, "目标"),
+    )
+    for heading, statuses, name in tables:
+        header, rows = parse_section_table(text, heading)
+        if header is None:
+            issues.append("env-map.md 无 %s 表" % heading)
+            continue
+        si = col(header, "状态")
+        if si is None:
+            issues.append("env-map.md %s 表缺「状态」列" % name)
+            continue
+        ev = col(header, "证据")
+        for n, row in enumerate(rows, 1):
+            st = cell(row, si).lower()
+            if not st:
+                issues.append("env-map.md %s 第 %d 行状态为空" % (name, n))
+                continue
+            if st not in statuses:
+                issues.append("env-map.md %s 第 %d 行状态非法: %s" % (name, n, st))
+            if st in ("confirmed", "candidate", "negative") and ev is not None and is_empty(cell(row, ev)):
+                issues.append("env-map.md %s 第 %d 行 %s 但无证据" % (name, n, st))
+            if st == "blocked" and "尝试" not in " ".join(row):
+                issues.append("env-map.md %s 第 %d 行 blocked 但无已尝试说明" % (name, n))
+
+
 def lint(work, check_tmp=False):
     issues = []
     warnings = []
@@ -582,6 +622,7 @@ def lint(work, check_tmp=False):
                     if stop:
                         break
 
+    check_env_map(work, issues, warnings)
     check_v3_tables(work, plan, issues, warnings)
     return issues, warnings
 
