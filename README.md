@@ -4,10 +4,10 @@
 
 **AI 驱动的授权渗透测试工作流**
 
-24 个技能 · 按需加载 · 零依赖 · 产物自包含
+25 个技能 · 按需加载 · 零依赖 · 产物自包含
 
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
-[![Skills](https://img.shields.io/badge/skills-24-brightgreen.svg)](skills)
+[![Skills](https://img.shields.io/badge/skills-25-brightgreen.svg)](skills)
 [![Clients](https://img.shields.io/badge/clients-4-lightgrey.svg)](#客户端支持)
 
 </div>
@@ -29,8 +29,8 @@ Kestrel 把通用 agent、24 个按需加载的技能和 Kali 工具组织成一
 | **证据驱动**        | 工具输出只算线索；标「已确认」必须附原始响应和第二种独立信号，每个结论都能追溯到证据                 |
 | **可交接**          | 账本、清单、复盘、清理记录全部落在 `Work/OC-<target>/`——换人接手不用重来，压缩或重启都能续           |
 | **授权可控**        | 分级写进 `roe.yaml`（L0–L3 自动上限 + `forbidden` 边界），L4 逐次授权——边界是文件，不是模型记忆      |
-| **按需加载**        | 启动只加载 24 个技能的名称与用途；信号命中且当前动作需要时才读正文，用不到的技能不占上下文           |
-| **零依赖**          | 24 个技能以 markdown 为主，附 4 个零依赖 Python 脚本，复制进技能目录即用——不装服务、不建库、不改环境 |
+| **按需加载**        | 启动只加载 25 个技能的名称与用途；信号命中且当前动作需要时才读正文，用不到的技能不占上下文           |
+| **零依赖**          | 25 个技能以 markdown 为主，附 4 个零依赖 Python 脚本，复制进技能目录即用——不装服务、不建库、不改环境 |
 | **离线/在线知识库** | AI 组件漏洞库、注入算子库、Agent 检测清单与攻击链全部内置，断网也能查；联网时接 NVD / OSV 补最新数据 |
 
 ## 快速开始
@@ -73,6 +73,7 @@ agent 会建立 `Work/OC-10.0.0.5/`，写 RoE，画资产基线，然后按账�
 | 漏洞与利用      | `vuln-discovery` · `cve-triage` · `exploitation`                                       |
 | 后渗透          | `post-exploitation` · `intranet-pentest-advanced` · `redteam-playbooks`                |
 | AI / Agent 安全 | `ai-mcp-security`                                                                      |
+| K8s / 容器      | `k8s-container`                                                                        |
 | CTF             | `ctf-web` · `ctf-crypto` · `ctf-misc`                                                  |
 | 客户端          | `android-pentest` · `client-reverse` · `crypto-toolkit`                                |
 | 支撑            | `pentest-tools` · `rapid-checklist` · `secknowledge-skill` · `hackerone` · `reporting` |
@@ -121,7 +122,7 @@ Work/OC-<target>/
 | OpenCode    | `~/.config/opencode/skills/` |
 | DSH         | `~/.dsh/skills/`             |
 
-24 个技能必须整体安装——存在跨技能的 `references/` 引用。
+25 个技能必须整体安装——存在跨技能的 `references/` 引用。
 
 ## 设计原则
 
