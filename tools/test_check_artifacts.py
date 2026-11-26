@@ -129,5 +129,161 @@ class ChannelDecisionTriggerTest(unittest.TestCase):
         self.assertFalse(hits, f"有通道判定表时不应再报: {hits}")
 
 
+def build_k8s_plan(with_hyp=True, with_perm=True, hyp_conclusion="进路径 P-01"):
+    """K8s 交战最小 plan：技能加载含 k8s-container，权限账本当前层 pod。"""
+    hyp = ""
+    if with_hyp:
+        hyp = f"""## 假设
+| # | 来源 | 攻击面 | 漏洞类 | 身份路径 | 可观察信号 | 验证方法 | 预期证据 | 状态 | 结论 |
+|---|---|---|---|---|---|---|---|---|---|
+| H-01 | 账本 #1 | 80 /x | rce | 无→pod | 回显 | id | evidence/x.txt | confirmed | {hyp_conclusion} |
+
+"""
+    perm = ""
+    if with_perm:
+        perm = """## 权限账本
+| # | 身份/凭据 | 类型 | 来源 | 可达范围 | 当前层 | 权限 | 证据 | 状态 | 下一步 |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | sa | token | sa 挂载 | ns | pod | list | evidence/x.txt | confirmed | - |
+
+"""
+    return f"""## 资产基线
+| 端口 | 服务 | 版本 | 标题/技术栈 | 证据 |
+|---|---|---|---|---|
+| 80 | app | 1.0 | demo | evidence/x.txt |
+
+## 攻击面账本
+| # | 资产 | 端口 | 服务 | 接口/参数 | 方法 | 类别 | 状态 | 证据 | 下一步 |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | 10.0.0.5 | 80 | app | /x | GET | rce | confirmed | evidence/x.txt | - |
+
+## 技能加载
+| 技能 | 时间 | 触发信号 | 依据 |
+|---|---|---|---|
+| pentest-flow | 10:00 | 开始 | 主流程 |
+| k8s-container | 10:01 | 6443 | 强制 |
+
+{hyp}{perm}## 深度清单
+| 方向 | 清单项 | 状态 | 证据/说明 |
+|---|---|---|---|
+| 基础 | S1 | done | evidence/x.txt |
+
+## 覆盖清单
+| 类别 | 状态 |
+|---|---|
+| sqli | negative |
+
+## 通道判定
+| S 级 | 位置 | 下一动作 T 级 | decision | fallback | cleanup_status |
+|---|---|---|---|---|---|
+| S0 | 容器 | T0 | 直接执行 | 无 | n/a |
+
+## 复盘
+- 轮次 1：账本 #1 有证据
+- 轮次 2：清单 S1 完成
+- 轮次 3：证据已落盘
+- 轮次 4：negative 有理由
+- 轮次 5：无新方向
+
+## 结束检查
+| # | 检查项 | 输出 | 状态 |
+|---|---|---|---|
+| 1 | a | x | PASS |
+| 2 | b | x | PASS |
+| 3 | c | x | PASS |
+| 4 | d | x | PASS |
+| 5 | e | x | PASS |
+| 6 | f | x | PASS |
+| 7 | g | x | PASS |
+| 8 | h | x | PASS |
+| 9 | i | x | PASS |
+| 10 | j | x | PASS |
+| 11 | k | x | PASS |
+| 12 | l | x | PASS |
+"""
+
+
+def build_attack_path(with_evidence=True, blocked=False):
+    evidence = "evidence/x.txt" if with_evidence else "-"
+    status = "blocked" if blocked else "confirmed"
+    note = "已尝试 3 条" if blocked else "-"
+    return f"""## 路径
+
+| # | 入口 | 中间节点 | 目标 | 所需权限/凭据 | 证据 | 状态 | 影响 |
+|---|---|---|---|---|---|---|---|
+| P-01 | 80 /x（账本 #1） | pod → SA | cluster-admin | 权限 #1 | {evidence} | {status} | 全集群 |
+| P-02 | 6443 匿名 | - | kubelet | 无 | evidence/x.txt | n/a | {note} |
+"""
+
+
+class K8sEngagementTest(unittest.TestCase):
+    """K8s 交战：假设 / 权限账本 / attack-path / cleanup 强制。"""
+
+    def issues_for(self, plan=None, attack_path=None, cleanup=True):
+        with tempfile.TemporaryDirectory() as tmp:
+            work = Path(tmp)
+            (work / "roe.yaml").write_text(
+                'engagement:\n  target: "10.0.0.5"\ngoal: {highest_control: cluster-admin}\n',
+                encoding="utf-8",
+            )
+            (work / "findings.md").write_text("# findings\n", encoding="utf-8")
+            (work / "evidence").mkdir()
+            (work / "evidence" / "x.txt").write_text("proof\n", encoding="utf-8")
+            (work / "plan.md").write_text(plan or build_k8s_plan(), encoding="utf-8")
+            if attack_path is not None:
+                (work / "attack-path.md").write_text(attack_path, encoding="utf-8")
+            if cleanup:
+                (work / "cleanup.md").write_text("# cleanup\n", encoding="utf-8")
+            issues, warnings = check_artifacts.lint(str(work))
+            return issues, warnings
+
+    def test_full_k8s_passes(self) -> None:
+        issues, _ = self.issues_for(attack_path=build_attack_path())
+        self.assertFalse([i for i in issues if "K8s 交战" in i], issues)
+
+    def test_missing_hypothesis_fails(self) -> None:
+        issues, _ = self.issues_for(plan=build_k8s_plan(with_hyp=False), attack_path=build_attack_path())
+        self.assertTrue([i for i in issues if "假设" in i], issues)
+
+    def test_missing_permission_ledger_fails(self) -> None:
+        issues, _ = self.issues_for(plan=build_k8s_plan(with_perm=False), attack_path=build_attack_path())
+        self.assertTrue([i for i in issues if "权限账本" in i], issues)
+
+    def test_missing_attack_path_fails(self) -> None:
+        issues, _ = self.issues_for(attack_path=None)
+        self.assertTrue([i for i in issues if "attack-path.md" in i], issues)
+
+    def test_missing_cleanup_fails(self) -> None:
+        issues, _ = self.issues_for(attack_path=build_attack_path(), cleanup=False)
+        self.assertTrue([i for i in issues if "cleanup.md" in i], issues)
+
+    def test_old_product_warns_only(self) -> None:
+        issues, warnings = self.issues_for(
+            plan=build_plan("rce", with_channel=True),
+            attack_path=None,
+        )
+        self.assertFalse([i for i in issues if "K8s 交战" in i], issues)
+        self.assertTrue([w for w in warnings if "旧产物" in w], warnings)
+
+    def test_permission_blocked_without_attempt_fails(self) -> None:
+        plan = build_k8s_plan().replace("| 1 | sa | token | sa 挂载 | ns | pod | list | evidence/x.txt | confirmed | - |",
+                                        "| 1 | sa | token | sa 挂载 | ns | pod | list | evidence/x.txt | blocked | - |")
+        issues, _ = self.issues_for(plan=plan, attack_path=build_attack_path())
+        self.assertTrue([i for i in issues if "blocked 但无已尝试" in i], issues)
+
+    def test_attack_path_without_evidence_fails(self) -> None:
+        issues, _ = self.issues_for(attack_path=build_attack_path(with_evidence=False))
+        self.assertTrue([i for i in issues if "无证据" in i], issues)
+
+    def test_attack_path_blocked_without_attempt_fails(self) -> None:
+        issues, _ = self.issues_for(attack_path=build_attack_path(blocked=True))
+        self.assertTrue([i for i in issues if "blocked 但无已尝试" in i], issues)
+
+    def test_hypothesis_path_ref_missing_fails(self) -> None:
+        plan = build_k8s_plan(hyp_conclusion="进路径 P-99")
+        issues, _ = self.issues_for(plan=plan, attack_path=build_attack_path())
+        self.assertTrue([i for i in issues if "P-99" in i], issues)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

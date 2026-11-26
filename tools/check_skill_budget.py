@@ -14,6 +14,24 @@ ROOT = Path(__file__).resolve().parents[1]
 SKILL = ROOT / "skills" / "ai-mcp-security"
 POST = ROOT / "skills" / "post-exploitation"
 SHARED_POST = ROOT / "skills" / "pentest-flow" / "references" / "_shared" / "post"
+K8S = ROOT / "skills" / "k8s-container"
+SHARED_HOST = ROOT / "skills" / "pentest-flow" / "references" / "_shared" / "host"
+
+K8S_CAPS = {
+    "SKILL.md": 180,
+    "references/external-surface.md": 120,
+    "references/cross-layer-enum.md": 80,
+    "references/pod-foothold.md": 130,
+    "references/cluster-enum.md": 130,
+    "references/escape-and-privesc.md": 150,
+    "references/node-and-cloud.md": 120,
+    "references/evidence-and-cleanup.md": 90,
+    "references/tool-map.md": 80,
+}
+
+HOST_CAPS = {
+    "host-privesc.md": 220,
+}
 
 # 行数上限：检测清单按设计预算；算子按现有体例给 90 行余量。
 CAPS = {
@@ -71,7 +89,7 @@ def check_source_ids() -> list[str]:
 def main() -> None:
     failures = []
     total = 0
-    for skill_dir, caps in ((SKILL, CAPS), (POST, POST_CAPS)):
+    for skill_dir, caps in ((SKILL, CAPS), (POST, POST_CAPS), (K8S, K8S_CAPS), (SHARED_HOST, HOST_CAPS)):
         for rel, cap in caps.items():
             total += 1
             if rel.startswith("shared/"):

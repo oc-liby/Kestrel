@@ -124,26 +124,32 @@ def scan_cross_refs(metas, entry):
     """非 entry 技能直接引用其他能力包 references/ 的数量与样例。
 
     白名单：_shared、本技能目录、entry（pentest-flow）。
+    扫描范围：SKILL.md + 本技能 references/*.md（references 内的跨技能引用同样检查）。
     """
     hits = []
     for n, v in metas.items():
         if n == entry:
             continue
-        text = v["text"]
-        for m in re.finditer(r"`([^`\n]+?\.md)`|\]\(([^)]+?\.md)\)", text):
-            rel = m.group(1) or m.group(2)
-            if not rel or rel.startswith(("http", "/", "~")):
-                continue
-            if " " in rel or "*" in rel or "<" in rel:
-                continue
-            if "_shared" in rel:
-                continue
-            m2 = re.search(r"(?:\.\./)+(pentest-flow|[a-z0-9][a-z0-9-]*)/", rel)
-            if not m2:
-                continue
-            target = m2.group(1)
-            if target in metas and target not in (n, entry):
-                hits.append((n, rel))
+        texts = [v["text"]]
+        refs_dir = SKILLS / n / "references"
+        if refs_dir.is_dir():
+            for f in refs_dir.rglob("*.md"):
+                texts.append(f.read_text(encoding="utf-8"))
+        for text in texts:
+            for m in re.finditer(r"`([^`\n]+?\.md)`|\]\(([^)]+?\.md)\)", text):
+                rel = m.group(1) or m.group(2)
+                if not rel or rel.startswith(("http", "/", "~")):
+                    continue
+                if " " in rel or "*" in rel or "<" in rel:
+                    continue
+                if "_shared" in rel:
+                    continue
+                m2 = re.search(r"(?:\.\./)+(pentest-flow|[a-z0-9][a-z0-9-]*)/", rel)
+                if not m2:
+                    continue
+                target = m2.group(1)
+                if target in metas and target not in (n, entry) and target not in v["requires"]:
+                    hits.append((n, rel))
     return hits
 
 

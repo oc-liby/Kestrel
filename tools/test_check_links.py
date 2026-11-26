@@ -19,6 +19,37 @@ class LinkTest(unittest.TestCase):
         self.assertFalse(cl.is_checkable("plan.md", md))
         self.assertTrue(cl.is_checkable("../y/references/z.md", md))
 
+    def _run(self, body_skill: str, body_ref: str):
+        import tempfile
+        from unittest import mock
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            skills = root / "skills"
+            (skills / "a" / "references").mkdir(parents=True)
+            (skills / "a" / "SKILL.md").write_text(body_skill, encoding="utf-8")
+            (skills / "a" / "references" / "n.md").write_text(body_ref, encoding="utf-8")
+            shared = skills / "pentest-flow" / "references" / "_shared"
+            shared.mkdir(parents=True)
+            (shared / "x.md").write_text("x\n", encoding="utf-8")
+            with mock.patch.object(cl, "SKILLS", skills), \
+                 mock.patch.object(cl, "ROOT", root), \
+                 mock.patch.object(cl, "SKILL_NAMES", {"a", "pentest-flow"}):
+                import contextlib
+                import io
+                with contextlib.redirect_stdout(io.StringIO()):
+                    return cl.main()
+
+    def test_shared_prefix_levels_pass(self):
+        rc = self._run(
+            "see `../pentest-flow/references/_shared/x.md`\n",
+            "see `../../pentest-flow/references/_shared/x.md`\n",
+        )
+        self.assertEqual(rc, 0)
+
+    def test_wrong_shared_prefix_fails(self):
+        rc = self._run("# ok\n", "see `references/_shared/x.md`\n")
+        self.assertEqual(rc, 1)
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

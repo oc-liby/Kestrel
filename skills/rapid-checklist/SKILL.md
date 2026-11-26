@@ -4,7 +4,7 @@ description: 渗透速查与Payload — 快速Payload家族、绕过提醒、验
 metadata:
   version: "0.1.0"
   entry: false
-  requires: [pentest-flow]
+  requires: [pentest-flow, ai-mcp-security, client-reverse, intranet-pentest-advanced, pentest-tools, web-security-advanced]
   triggers:
     - "需要一个方向的完整 payload 清单做覆盖核对"
   layer: "flow"

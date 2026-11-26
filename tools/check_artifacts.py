@@ -140,6 +140,103 @@ def is_empty(value):
     return value in ("", "-", "—", "n/a", "N/A", "无")
 
 
+def check_v3_tables(work, plan, issues, warnings):
+    """v3：权限账本 / 假设 / attack-path / K8s 强制 / 交叉引用 / 旧 RoE。"""
+    roe = read_text(os.path.join(work, "roe.yaml")) or ""
+    m = re.search(r"(?m)^\s*goal:\s*(.+)$", roe)
+    if m and not m.group(1).strip().startswith("{"):
+        warnings.append("旧 RoE：goal 为字符串，highest_control 未定义（WARN）")
+
+    perm_header, perm_rows = parse_section_table(plan, "## 权限账本")
+    hyp_header, hyp_rows = parse_section_table(plan, "## 假设")
+
+    def table_status(header, rows, name, statuses):
+        if header is None:
+            return
+        si = col(header, "状态")
+        if si is None:
+            issues.append("%s 缺「状态」列" % name)
+            return
+        ev = col(header, "证据")
+        for n, row in enumerate(rows, 1):
+            st = cell(row, si).lower()
+            if not st:
+                issues.append("%s 第 %d 行状态为空" % (name, n))
+                continue
+            if st not in statuses:
+                issues.append("%s 第 %d 行状态非法: %s" % (name, n, st))
+            if st in ("confirmed", "candidate", "negative") and ev is not None and is_empty(cell(row, ev)):
+                issues.append("%s 第 %d 行 %s 但无证据" % (name, n, st))
+            if st == "blocked" and "尝试" not in " ".join(row):
+                issues.append("%s 第 %d 行 blocked 但无已尝试说明" % (name, n))
+
+    table_status(perm_header, perm_rows, "权限账本", LEDGER_STATUSES)
+    table_status(hyp_header, hyp_rows, "假设", {"untested", "testing", "confirmed", "negative", "blocked"})
+
+    # K8s 交战判定：技能加载含 k8s-container，或权限账本当前层出现 pod/k8s/node
+    loaded_k8s = any("k8s-container" in l for l in section_lines(plan, "## 技能加载"))
+    if perm_header is not None:
+        layer_idx = col(perm_header, "当前层")
+        for row in perm_rows:
+            if layer_idx is not None and cell(row, layer_idx).lower() in ("pod", "k8s", "node"):
+                loaded_k8s = True
+                break
+
+    ap_path = os.path.join(work, "attack-path.md")
+    ap = read_text(ap_path) or ""
+
+    if loaded_k8s:
+        if hyp_header is None:
+            issues.append("K8s 交战缺 ## 假设 表")
+        if perm_header is None:
+            issues.append("K8s 交战缺 ## 权限账本 表")
+        if not os.path.isfile(ap_path):
+            issues.append("K8s 交战缺 attack-path.md")
+        if not os.path.isfile(os.path.join(work, "cleanup.md")):
+            issues.append("K8s 交战缺 cleanup.md")
+    elif hyp_header is None and perm_header is None:
+        warnings.append("旧产物：无假设/权限账本表（WARN）")
+
+    if os.path.isfile(ap_path):
+        ap_header, ap_rows = parse_section_table(ap, "## 路径")
+        if ap_header is None or not ap_rows:
+            issues.append("attack-path.md 无 ## 路径 表或为空")
+        else:
+            si = col(ap_header, "状态")
+            ei = col(ap_header, "证据")
+            for n, row in enumerate(ap_rows, 1):
+                st = cell(row, si).lower() if si is not None else ""
+                if st and st not in ("confirmed", "candidate", "blocked", "n/a"):
+                    issues.append("attack-path 第 %d 行状态非法: %s" % (n, st))
+                if st in ("confirmed", "candidate") and ei is not None and is_empty(cell(row, ei)):
+                    issues.append("attack-path 第 %d 行 %s 但无证据" % (n, st))
+                if st == "blocked" and "尝试" not in " ".join(row):
+                    issues.append("attack-path 第 %d 行 blocked 但无已尝试" % n)
+
+        # 交叉引用：假设结论的 P-N
+        if hyp_header is not None:
+            ci = col(hyp_header, "结论")
+            for n, row in enumerate(hyp_rows, 1):
+                for pid in re.findall(r"P-\d+", cell(row, ci) if ci is not None else ""):
+                    if pid not in ap:
+                        issues.append("假设第 %d 行结论引用 %s，attack-path 中不存在" % (n, pid))
+
+        # 交叉引用：路径的 #N 必须存在于攻击面账本或权限账本
+        ids = set()
+        for heading in ("## 攻击面账本", "## 权限账本"):
+            h, rows = parse_section_table(plan, heading)
+            if h is not None:
+                ni = col(h, "#")
+                for r in rows:
+                    v = cell(r, ni).lstrip("#")
+                    if v:
+                        ids.add(v)
+        for n, row in enumerate(ap_rows, 1):
+            for ref in re.findall(r"#(\d+)", " ".join(row)):
+                if ref not in ids:
+                    issues.append("attack-path 第 %d 行引用 #%s，账本中不存在" % (n, ref))
+
+
 def lint(work, check_tmp=False):
     issues = []
     warnings = []
@@ -300,11 +397,13 @@ def lint(work, check_tmp=False):
             ("版本/CVE", r"版本|CVE|banner|指纹"),
             ("凭据", r"凭据|凭证|token|session"),
             ("响应线索", r"响应|错误信息|重定向|header|cookie"),
+            ("跨层", r"跨层|容器|K8s|宿主|云"),
+            ("身份/信任", r"身份|信任|SA token|ADCS|云角色"),
         ]
         X_BY_ID = {"X1": "JS/前端", "X2": "源码/备份", "X3": "文档/配置",
                    "X4": "同类横向", "X5": "版本/CVE", "X6": "凭据", "X7": "响应线索"}
         # 核对项：A–G 编号或关键词
-        CHECK_ITEMS = r"资产|接口|类别|negative|blocked|回连"
+        CHECK_ITEMS = r"资产|接口|类别|路径|negative|blocked|回连"
         # 具体对象：账本行号 / 清单项 ID / 证据路径 / 接口路径；X 编号不算对象
         OBJECT = (r"#\d+|第\s*\d+\s*行|(?!X\d)[A-Z]\d{1,2}\b|evidence/"
                   r"|/[A-Za-z0-9_\-][A-Za-z0-9_\-./]{2,}")
@@ -330,7 +429,7 @@ def lint(work, check_tmp=False):
                 weak.append("%d(缺核对段)" % i)
             else:
                 chk_text = chk.group(1) + " " + chk.group(2)
-                if not re.search(r"\b[A-G]\b", chk_text) and not re.search(CHECK_ITEMS, chk_text, re.I):
+                if not re.search(r"\b[A-H]\b", chk_text) and not re.search(CHECK_ITEMS, chk_text, re.I):
                     weak.append("%d(缺核对项)" % i)
             if not re.search(OBJECT, item):
                 weak.append("%d(缺具体对象)" % i)
@@ -483,6 +582,7 @@ def lint(work, check_tmp=False):
                     if stop:
                         break
 
+    check_v3_tables(work, plan, issues, warnings)
     return issues, warnings
 
 
