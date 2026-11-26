@@ -49,7 +49,7 @@ python tools/gen_router.py --dry-run  # 列出将变更的文件
 
 ## check_contracts.py
 
-校验 24 个技能 frontmatter 的必填字段、`entry` 唯一、`requires` 无环且指向存在；跨技能直接引用先以 WARN 输出，P2 迁移后启用 `--strict-refs`。
+校验 25 个技能 frontmatter 的必填字段、`entry` 唯一、`requires` 无环且指向存在；跨技能直接引用按 `requires` 声明放行，其余在 `--strict-refs` 下 FAIL（CI 已启用）。
 
 ```bash
 python tools/check_contracts.py
