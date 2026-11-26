@@ -49,8 +49,8 @@ metadata:
 | REST/gRPC/WebSocket API、BOLA/BFLA/批量赋值 | `references/claude-red-api-security.md` |
 | 价格/优惠券/流程/多步业务逻辑 | `references/claude-red-business-logic.md` |
 | AWS/Azure/GCP / IMDS / 跨账号 | `references/claude-red-cloud.md` |
-| 容器逃逸 | `references/claude-red-container-escape.md` |
-| Kubernetes 集群攻击 | `references/claude-red-k8s-attacks.md` |
+| 容器逃逸 | `../pentest-flow/references/_shared/k8s/claude-red-container-escape.md` |
+| Kubernetes 集群攻击 | `../pentest-flow/references/_shared/k8s/claude-red-k8s-attacks.md` |
 | CI/CD 密钥提取 / pipeline 滥用 | `references/claude-red-cicd-secrets.md` |
 | 快速 triage / 检查顺序 | `references/claude-red-fast-checking.md` |
 

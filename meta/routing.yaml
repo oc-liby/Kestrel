@@ -5,7 +5,7 @@ entry: pentest-flow
 default_requires: [pentest-flow]
 
 # 强制门禁：triggers 命中时必须出现在 plan.md 的「技能加载」表
-mandatory: [recon, web-pentest, cve-triage, ai-mcp-security, exploitation, post-exploitation, vuln-discovery]
+mandatory: [recon, web-pentest, cve-triage, ai-mcp-security, exploitation, post-exploitation, vuln-discovery, k8s-container]
 
 # 阶段顺序：生成表按此排序；未列出的阶段排在最后，按 id 字典序
 phase_order: [recon, vuln-discovery, exploitation, post-exploitation, reporting, cross-cutting]
@@ -20,6 +20,7 @@ groups:
   ctf: [ctf-web, ctf-crypto, ctf-misc]
   client: [android-pentest, client-reverse, crypto-toolkit]
   support: [pentest-tools, rapid-checklist, secknowledge-skill, hackerone, reporting]
+  k8s: [k8s-container]
 
 output:
   file: skills/pentest-flow/references/routing.generated.md
